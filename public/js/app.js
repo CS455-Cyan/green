@@ -27,9 +27,13 @@
 				'$rootScope',
 				'$location',
 				'$resource',
-				function($http, $rootScope, $location, $resource)
+				'API',
+				function($http, $rootScope, $location, $resource, API)
 				{
 					// This runs when this angular app is first loaded.
+					API.listPrograms(function(programs){
+						$rootScope.programs = programs;
+					});
 				}
 			]
 		);

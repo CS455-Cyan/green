@@ -26,8 +26,21 @@
 							templateUrl: 'views/home.html',
 							controller: 'HomeCtrl'
 						}
+					).when
+					(
+						'/general_education_req',
+						{
+							templateUrl: 'views/general_education_req.html',
+							controller: 'HomeCtrl'
+						}
+					).when
+					(
+						'/programs/category/:category',
+						{
+							templateUrl: 'views/programs/category.html',
+							controller: 'CategoryCtrl'
+						}
 					);
-
 				}
 			]
 		);

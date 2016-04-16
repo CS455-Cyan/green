@@ -7,28 +7,35 @@
 
 \***																					***/
 
+angular.module('Catalog')
+.controller
 (
-	function(angular)
-	{
-		'use strict';
-
-		angular.module('Catalog')
-		.controller
-		(
-			'HomeCtrl',
-			[
-				'$scope',
-				'$rootScope',
-				'$location',
-				function($scope, $rootScope, $location)
-				{
-					// ...
+	'HomeCtrl',
+	[
+		'$scope',
+		'$rootScope',
+		'API',
+		function($scope, $rootScope, API)
+		{
+			//
+		}
+	]
+).controller
+(
+	'CategoryCtrl',
+	[
+		'$scope',
+		'$rootScope',
+		'$routeParams',
+		'API',
+		function($scope, $rootScope, $routeParams, API)
+		{
+			$scope.category;
+			for(var i in $rootScope.programs) {
+				if($rootScope.programs[i]._id == $routeParams.category) {
+					$scope.category = $rootScope.programs[i];
 				}
-			]
-		);
-		
-	}
-)
-(
-	angular
+			}
+		}
+	]
 );
