@@ -28,6 +28,13 @@
 						}
 					).when
 					(
+						'/about',
+						{
+							templateUrl: 'views/home.html',
+							controller: 'HomeCtrl'
+						}
+					).when
+					(
 						'/general_education_req',
 						{
 							templateUrl: 'views/general_education_req.html',
@@ -39,6 +46,20 @@
 						{
 							templateUrl: 'views/programs/category.html',
 							controller: 'CategoryCtrl'
+						}
+					).when
+					(
+						'/programs/category/:category/program/:program',
+						{
+							templateUrl: 'views/programs/program.html',
+							controller: 'ProgramCtrl'
+						}
+					).when
+					(
+						'/programs/category/:category/department/:department/program/:program',
+						{
+							templateUrl: 'views/programs/program.html',
+							controller: 'ProgramCtrl'
 						}
 					);
 				}

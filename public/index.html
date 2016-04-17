@@ -355,15 +355,15 @@
                             
                         </p>
                         <div class="list-group">
-													<a href="#/" class="list-group-item" data-parent="#MainMenu">About UNA Catalog</a>
+													<a href="#/about" class="list-group-item" ng-class="{active: isActivePath('/about')}" data-parent="#MainMenu">About UNA Catalog</a>
 													 <a href="#/" class="list-group-item" data-parent="#MainMenu">Description of University</a>
 													 <a href="#/" class="list-group-item" data-parent="#MainMenu">Admission to University</a>
 													 <a href="#/" class="list-group-item" data-parent="#MainMenu">Expenses</a>
-													 <a href="#general_education_req" class="list-group-item" data-parent="#MainMenu">General Education Requirements</a>
+													 <a href="#/general_education_req" ng-class="{active: isActivePath('/general_education_req')}" class="list-group-item" data-parent="#MainMenu">General Education Requirements</a>
 													<a data-target="#demo4" class="list-group-item" data-toggle="collapse" data-parent="#MainMenu"><span class='
 			glyphicon glyphicon-chevron-down'></span> &nbsp Colleges and Programs</a>
 													<div class="collapse" id="demo4">
-															<a ng-repeat="category in programs" ng-href="#programs/category/{{category._id}}" class="list-group-item">{{category.name}}</a>
+															<a ng-repeat="c in categories" ng-href="#programs/category/{{c._id}}" ng-class="{active: isActivePath('/programs/category/'+c._id)}" class="list-group-item">{{c.name}}</a>
 													</div>
                     		</div>
                     </aside>
