@@ -17,7 +17,39 @@ angular.module('Catalog')
 		'API',
 		function($scope, $rootScope, API)
 		{
-			//
+			$rootScope.breadcrumbs = [{text: 'About UNA Catalog'}];
+		}
+	]
+).controller
+(
+	'TextSectionCtrl',
+	[
+		'$scope',
+		'$rootScope',
+		'$routeParams',
+		'API',
+		function($scope, $rootScope, $routeParams, API)
+		{
+			API.getTextSection($routeParams.section, function(textSection) {
+				$scope.textSection = textSection;
+				$rootScope.breadcrumbs = [{text: textSection.title}];
+			});
+		}
+	]
+).controller
+(
+	'GeneralRequirementsCtrl',
+	[
+		'$scope',
+		'$rootScope',
+		'$routeParams',
+		'API',
+		function($scope, $rootScope, $routeParams, API)
+		{
+			$rootScope.breadcrumbs = [{text: 'General Education Requirements'}];
+			API.listGeneralRequirements(function(generalRequirements) {
+				$scope.generalRequirements = generalRequirements;
+			});
 		}
 	]
 ).controller
@@ -32,6 +64,32 @@ angular.module('Catalog')
 		{
 			API.getCategory($routeParams.category, function(category) {
 				$rootScope.category = category;
+				$rootScope.breadcrumbs = [{text: category.name}];
+			});
+		}
+	]
+).controller
+(
+	'DepartmentCtrl',
+	[
+		'$scope',
+		'$rootScope',
+		'$routeParams',
+		'API',
+		function($scope, $rootScope, $routeParams, API)
+		{
+			API.getDepartment($routeParams.category, $routeParams.department, function(category, department) {
+				$scope.category = category;
+				$scope.department = department;
+				$rootScope.breadcrumbs = [
+					{
+						text: category.name,
+						url: '#/programs/category/' + category._id
+					},
+					{
+						text: department.name
+					}
+				];
 			});
 		}
 	]
@@ -45,36 +103,29 @@ angular.module('Catalog')
 		'API',
 		function($scope, $rootScope, $routeParams, API)
 		{
-			// Retrieve program from API if not already loaded
-			if(!$rootScope.program || $rootScope.program._id != $routeParams.program) {
-				API.getProgram(
-					$routeParams.category,
-					$routeParams.department,
-					$routeParams.program,
-					function(category, department, program) {
-						$scope.category = category;
-						$scope.department = department;
-						$scope.program = program;
+			API.getProgram(
+				$routeParams.category,
+				$routeParams.department,
+				$routeParams.program,
+				function(category, department, program) {
+					console.log(category, department, program)
+					$scope.category = category;
+					$scope.department = department;
+					$scope.program = program;
+					$rootScope.breadcrumbs = [];
+					$rootScope.breadcrumbs.push({
+						text: category.name,
+						url: '#/programs/category/' + category._id
+					});
+					if(department) {
+						$rootScope.breadcrumbs.push({
+							text: department.name,
+							url: '#/programs/category/' + category._id + '/department/' + department._id
+						});
 					}
-				);
-			}
-		}
-	]
-).controller
-(
-	'CourseCtrl',
-	[
-		'$scope',
-		'$rootScope',
-		'$routeParams',
-		'API',
-		function($scope, $rootScope, $routeParams, API)
-		{
-			if(!$rootScope.course || $rootScope.course._id != $routeParams.course) {
-				API.getCourse($routeParams.course, function(course) {
-					$scope.course = course;
-				});
-			}
+					$rootScope.breadcrumbs.push({text: program.name});
+				}
+			);
 		}
 	]
 ).controller
@@ -87,6 +138,7 @@ angular.module('Catalog')
 		'API',
 		function($scope, $rootScope, $routeParams, API)
 		{
+			$rootScope.breadcrumbs = [{text: 'Courses'}];
 			API.listSubjects(function(subjects) {
 				$rootScope.subjects = subjects;
 			});
@@ -113,13 +165,53 @@ angular.module('Catalog')
 				Created: Tyler Yasaka 04/17/2016
 				Modified:
 			*/
-			$scope.goToCourse = function(course) {
+			/*$scope.goToCourse = function(course) {
 				$rootScope.course = course;
 				$location.path('/courses/course/' + course._id);
-			}
+			}*/
 			API.getSubject($routeParams.subject, function(subject, courses) {
 				$scope.subject = subject;
 				$scope.courses = courses;
+				$rootScope.breadcrumbs = [
+					{text: 'Courses', url: '#/courses'},
+					{text: subject.name}
+				];
+			});
+		}
+	]
+).controller
+(
+	'CourseCtrl',
+	[
+		'$scope',
+		'$rootScope',
+		'$routeParams',
+		'API',
+		function($scope, $rootScope, $routeParams, API)
+		{
+			API.getCourse($routeParams.course, function(course) {
+				$scope.course = course;
+				$rootScope.breadcrumbs = [
+					{text: 'Courses', url: '#/courses'},
+					{text: course.subject.name, url: '#/courses/subject/' + course.subject._id},
+					{text: course.subject.abbreviation + course.number}
+				];
+			});
+		}
+	]
+).controller
+(
+	'FacultyAndStaffCtrl',
+	[
+		'$scope',
+		'$rootScope',
+		'$routeParams',
+		'API',
+		function($scope, $rootScope, $routeParams, API)
+		{
+			$rootScope.breadcrumbs = [{text: 'Faculty and Staff'}];
+			API.getFacultyAndStaff(function(facultyAndStaff) {
+				$scope.facultyAndStaff = facultyAndStaff;
 			});
 		}
 	]

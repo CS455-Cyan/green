@@ -33,6 +33,10 @@
 					// This runs when this angular app is first loaded.
 					
 					$rootScope.categories = [];
+
+					API.listTextSections(function(textSections){
+						$rootScope.textSections = textSections;
+					});
 					
 					API.listCategories(function(categories){
 						$rootScope.categories = categories;
@@ -51,6 +55,48 @@
 					$rootScope.isActivePath = function(path) {
 						return ($location.path().substr(0, path.length) === path);
 					}
+					
+					/*
+						Function: $rootScope.goToDepartment
+						Description: Navigate to a given department, passing it to the root scope so the data does not have to be fetched again from the API
+						Input:
+							department: object for department program is in
+						Output:
+							app navigates to specified department page
+						Created: Tyler Yasaka 04/19/2016
+						Modified:
+					*/
+					/*$rootScope.goToDepartment = function(category, department) {
+						$rootScope.department = department;
+						$location.path(
+							'/programs/category/' +
+							category._id +
+							'/department/' +
+							department._id
+						);
+					}*/
+					
+					/*
+						Function: $rootScope.goToProgram
+						Description: Navigate to a given program, passing it to the root scope so the data does not have to be fetched again from the API
+						Input:
+							department: object for department program is in
+							program: the program object
+						Output:
+							app navigates to specified program page
+						Created: Tyler Yasaka 04/19/2016
+						Modified:
+					*/
+					/*$rootScope.goToProgram = function(category, department, program) {
+						$rootScope.department = department;
+						$rootScope.program = program;
+						var path = '/programs/category/' + category._id;
+						if(department) {
+							path += '/department/' + department._id
+						}
+						path += '/program/' + program._id;
+						$location.path(path);
+					}*/
 					
 					/*
 						Function: $rootScope.programTitle

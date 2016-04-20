@@ -1,7 +1,7 @@
 /***																					***\
 
 	Filename: catalog.controllers.js
-	Author: Tyler Yasaka
+	Author: CS455 Cyan
 
 	Copyright (c) 2015 University of North Alabama
 

@@ -110,7 +110,7 @@
 								<input name="cof" type="hidden" value="FORID:11"/>
 								<input class="form-control" id="q" name="q" placeholder="Search UNA.edu" style="height: 25px; margin-top: 4px;padding-bottom:0;padding-top:0;" title="Search UNA.edu" type="search"/>
 								<button type="submit">
-									<span class="glyphicon glyphicon-search" style="top:-9px;"></span>
+									<span								 class="glyphicon glyphicon-search" style="top:-9px;"></span>
 									<span class="btn-search-label">
 											Go
 									</span>
@@ -356,21 +356,33 @@
                         </p>
                         <div class="list-group">
 													<a href="#/about" class="list-group-item" ng-class="{active: isActivePath('/about')}" data-parent="#MainMenu">About UNA Catalog</a>
-													 <a href="#/" class="list-group-item" data-parent="#MainMenu">Description of University</a>
-													 <a href="#/" class="list-group-item" data-parent="#MainMenu">Admission to University</a>
-													 <a href="#/" class="list-group-item" data-parent="#MainMenu">Expenses</a>
-													 <a href="#/general_education_req" ng-class="{active: isActivePath('/general_education_req')}" class="list-group-item" data-parent="#MainMenu">General Education Requirements</a>
+													 <a ng-repeat="t in textSections"  ng-href="#/section/{{t._id}}" ng-class="{active: isActivePath('/section/'+t._id)}" class="list-group-item" data-parent="#MainMenu">{{t.title}}</a>
+													 <a href="#/general-requirements" ng-class="{active: isActivePath('/general-requirements')}" class="list-group-item" data-parent="#MainMenu">General Education Requirements</a>
 													<a data-target="#demo4" class="list-group-item" data-toggle="collapse" data-parent="#MainMenu"><span class='
 			glyphicon glyphicon-chevron-down'></span> &nbsp Colleges and Programs</a>
 													<div class="collapse" id="demo4">
 															<a ng-repeat="c in categories" ng-href="#programs/category/{{c._id}}" ng-class="{active: isActivePath('/programs/category/'+c._id)}" class="list-group-item">{{c.name}}</a>
 													</div>
 													<a href="#/courses" ng-class="{active: isActivePath('/courses')}" class="list-group-item" data-parent="#MainMenu">Courses</a>
+													<a href="#/faculty-and-staff" ng-class="{active: isActivePath('/faculty-and-staff')}" class="list-group-item" data-parent="#MainMenu">Faculty and Staff</a>
                     		</div>
                     </aside>
+									
                     <!-- /.sidebar-module -->
                     <!-- .mainContent -->
-                    <div class="mainContent col-xs-12 col-sm-12 col-md-9" ng-view>
+                    <div class="mainContent col-xs-12 col-sm-12 col-md-9">
+											
+											<ol class="breadcrumb">
+												<li ng-repeat="(b, breadcrumb) in breadcrumbs" ng-class="{active: b == breadcrumbs.length - 1}">
+													<a ng-if="b < breadcrumbs.length - 1" ng-href="{{breadcrumb.url}}">
+														{{breadcrumb.text}}
+													</a>
+													<span ng-if="b == breadcrumbs.length - 1">{{breadcrumb.text}}</span>
+												</li>
+											</ol>
+											
+											<div ng-view></div>
+											
                     </div>
                     <!-- /.mainContent -->
                 </div>

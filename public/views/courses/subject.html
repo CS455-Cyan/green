@@ -1,19 +1,8 @@
-<ol class="breadcrumb">
-  <li>
-		<a href="#/courses">
-			Courses
-		</a>
-	</li>
-  <li class="active">
-		{{subject.name}}
-	</li>
-</ol>
-
 <h1>{{subject.name}} ({{subject.abbreviation}})</h1>
 
 <ul>
 	<li ng-repeat="course in courses">
-		<a ng-click="goToCourse(course)" href="">
+		<a ng-href="#/courses/course/{{course._id}}">
 			{{course.title}}
 		</a>
 	</li>

@@ -1,6 +1,6 @@
 /***																					***\
 
-	Filename: api.services.js
+	Filename: catalog-api.services.js
 	Author: CS455 Cyan
 
 	Copyright (c) 2015 University of North Alabama
@@ -8,10 +8,10 @@
 \***																					***/
 
 
-angular.module('Catalog')
+angular.module('AppAdmin')
 .service
 (
-	'API',
+	'CatalogAPI',
 	function() {
 
 		/*

@@ -35,10 +35,17 @@
 						}
 					).when
 					(
-						'/general_education_req',
+						'/section/:section',
 						{
-							templateUrl: 'views/general_education_req.html',
-							controller: 'HomeCtrl'
+							templateUrl: 'views/section.html',
+							controller: 'TextSectionCtrl'
+						}
+					).when
+					(
+						'/general-requirements',
+						{
+							templateUrl: 'views/general-requirements.html',
+							controller: 'GeneralRequirementsCtrl'
 						}
 					).when
 					(
@@ -46,6 +53,12 @@
 						{
 							templateUrl: 'views/programs/category.html',
 							controller: 'CategoryCtrl'
+						}
+					).when
+					(	'/programs/category/:category/department/:department',
+						{
+							templateUrl: 'views/programs/department.html',
+							controller: 'DepartmentCtrl'
 						}
 					).when
 					(
@@ -81,6 +94,13 @@
 						{
 							templateUrl: 'views/courses/subject.html',
 							controller: 'SubjectCtrl'
+						}
+					).when
+					(
+						'/faculty-and-staff',
+						{
+							templateUrl: 'views/faculty-and-staff.html',
+							controller: 'FacultyAndStaffCtrl'
 						}
 					);
 				}
