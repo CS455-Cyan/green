@@ -21,7 +21,8 @@
 				'ngCookies',
 				'ngFileUpload',
 				'ui.bootstrap',
-				'chart.js'
+				'chart.js',
+                'ngSanitize'
 			]
 		).run
 		(

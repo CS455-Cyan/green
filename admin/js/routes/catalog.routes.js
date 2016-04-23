@@ -26,7 +26,16 @@
 							templateUrl: 'views/catalog/index.html',
 							controller: 'Catalog-HomeCtrl'
 						}
-					);
+					)
+                    .when
+                    (
+                        '/catalog/faculty-and-staff',
+                        {
+                            templateUrl: 'views/catalog/faculty-and-staff.html',
+                            controller: 'Catalog-HomeCtrl'
+                        }
+                    )
+                    ;
 
 				}
 			]

@@ -257,6 +257,22 @@ angular.module('AppAdmin')
 			callback(facultyAndStaff);
 		};
 		
+        /*
+			Function: this.updateFacultyAndStaff
+			Description: Updates the Faculty And Staff
+			Input:
+				id: id of text section to fetch (String)
+				callback: function to execute once the text section is found
+			Output:
+				callback is called when text section is found, with the text section passed in as a parameter
+			Created: Sean Vaccaro 4/23/2016
+			Modified:
+		*/
+        this.updateFacultyAndStaff = function(facultyAndStaffData, callback){
+            facultyAndStaff = facultyAndStaffData;
+            callback(true);
+        };
+        
 		// Sample data
 		
 		var textSections = [

@@ -18,7 +18,8 @@
 			[
 				'ngRoute',
 				'ngResource',
-				'ui.bootstrap'
+				'ui.bootstrap',
+                'ngSanitize'
 			]
 		).run
 		(
