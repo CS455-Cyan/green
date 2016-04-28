@@ -1,0 +1,12 @@
+<!-- ->
+
+	Filename: departments.html
+	Author: Graem Cook
+
+<-  -->
+
+	<h2>
+	   {{department.name}} Management
+    </h2>
+
+<a ng-repeat="program in department.programs" href="index.html#/catalog/programs/programs/{{category._id}}/{{department._id}}/{{program._id}}"><p>{{program.name}}</p></a>

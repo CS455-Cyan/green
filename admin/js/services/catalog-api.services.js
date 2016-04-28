@@ -98,6 +98,22 @@ angular.module('AppAdmin')
 				}
 			}
 		};
+        
+        /*
+			Function: API.updateCategory
+			Description: Update a category by ID
+			Input:
+				id: id of category to fetch (String)
+                category: the specific category's object
+				callback: function to execute once the category is changed
+			Output:
+				callback is called when category is changed, with a boolean flag passed in as a parameter
+			Created: Graem Cook 4/27/2016
+			Modified:
+		*/
+		this.updateCategory = function(id, category, callback) {
+			callback(true);
+		};
 		
 		/*
 			Function: API.getDepartment
