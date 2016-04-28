@@ -25,7 +25,7 @@
     <div id="collapse{{c}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
       <div class="panel-body">
         <div ng-if="editDescription==false">{{category.description}}</div>
-        <a class="glyphicon glyphicon-edit btn" ng-click="editDescription = !editDescription" ng-show="!editDescription"></a>
+          <a class="glyphicon glyphicon-edit btn" ng-click="editDescription = !editDescription" ng-show="!editDescription"></a>
           <textarea ng-model="category.description" ng-show="editDescription==true"></textarea>
           <a class="glyphicon glyphicon-ok btn btn-success" ng-click="editDescription=!editDescription; pushChange(category)" ng-show="editDescription"></a>
           <a class="glyphicon glyphicon-remove btn btn-danger" ng-click="editDescription=!editDescription; refresh()" ng-show="editDescription"></a>
