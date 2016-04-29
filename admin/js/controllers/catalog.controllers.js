@@ -87,11 +87,34 @@
 				{
 					$scope.departmentID = $routeParams.departmentID;
                     $scope.categoryID = $routeParams.categoryID;
+                    $scope.editName = false;
+                    $scope.editDescription = false;
+                    $scope.addDepartment = false;
+                    $scope.addProgram = false;
+                    $scope.save = false;
+                    $scope.discard = false;
                     
                     CatalogAPI.getDepartment($scope.categoryID, $scope.departmentID, function(category, department){
                         $scope.department = department;
                         $scope.category = category;
                     });
+                    $scope.pushDepartmentChange = function(category, department){
+                        console.log("pushDepartmentChange");
+                        CatalogAPI.updateDepartment(category.id, department._id, department, function(success){
+                            if(success){
+                                $scope.refresh();
+                            }else{
+                                //send a flag
+                            }
+                        });
+                    };
+                    $scope.refresh = function(){
+                        console.log("refresh")
+                       CatalogAPI.getDepartment($scope.categoryID, $scope.departmentID, function(category, department){
+                        $scope.department = department;
+                        $scope.category = category;
+                       });
+                    };
 				}
 			]
 		)

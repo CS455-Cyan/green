@@ -113,7 +113,7 @@ angular.module('AppAdmin')
 		*/
 		this.updateCategory = function(id, category, callback) {
             console.log("updateCategory");
-                    callback(true);
+            callback(true);
 		};
 		
 		/*
