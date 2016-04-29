@@ -48,10 +48,22 @@
                     };
 					CatalogAPI.listCategories(callback);
                     $scope.refresh = function(){
+                        console.log("refresh")
                        CatalogAPI.listCategories(callback);
                     };
-                    $scope.pushChange = function(category){
+                    $scope.pushCategoryChange = function(category){
+                        console.log("pushCategoryChange");
                         CatalogAPI.updateCategory(category._id, category, function(success){
+                            if(success){
+                                $scope.refresh();
+                            }else{
+                                //send a flag
+                            }
+                        });
+                    };
+                    $scope.pushDepartmentChange = function(category, department){
+                        console.log("pushDepartmentChange");
+                        CatalogAPI.updateDepartment(category.id, department._id, department, function(success){
                             if(success){
                                 $scope.refresh();
                             }else{
