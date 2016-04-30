@@ -26,6 +26,13 @@
 							templateUrl: 'views/catalog/index.html',
 							controller: 'Catalog-HomeCtrl'
 						}
+					).when
+					(
+						'/catalog/general-requirements',
+						{
+							templateUrl: 'views/catalog/general-requirements.html',
+							controller: 'Catalog-General-RequirementsCtrl'
+						}
 					);
 
 				}
