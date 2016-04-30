@@ -360,9 +360,44 @@
 		</div>
 
 		<!-- #programs-calendar -->
-		<div class="container-fluid" id="programs-calendar" ng-view>
+		<div class="container-fluid" id="programs-calendar">
 
-			<!-- views will go here -->
+<div class="container">
+		<div class="row row-offcanvas row-offcanvas-left">
+				<p class="pull-left visible-xs visible-sm">
+						<button class="btn btn-primary btn-xs" data-toggle="offcanvas" type="button">&gt;</button>
+				</p>
+				<!-- .sidebar-module -->
+				<aside class="sidebar-module col-xs-12 col-md-3 sidebar-offcanvas" ng-show="isActivePath('/catalog')">
+						<p class="impact">
+
+						</p>
+						<div class="list-group">
+							<a href="#/faculty-and-staff" ng-class="{active: isActivePath('/faculty-and-staff')}" class="list-group-item" data-parent="#MainMenu">Faculty and Staff</a>
+						</div>
+				</aside>
+
+				<!-- /.sidebar-module -->
+				<!-- .mainContent -->
+				<div class="mainContent col-xs-12 col-sm-12 col-md-9">
+
+					<ol class="breadcrumb">
+						<li ng-repeat="(b, breadcrumb) in breadcrumbs" ng-class="{active: b == breadcrumbs.length - 1}">
+							<a ng-if="b < breadcrumbs.length - 1" ng-href="{{breadcrumb.url}}">
+								{{breadcrumb.text}}
+							</a>
+							<span ng-if="b == breadcrumbs.length - 1">{{breadcrumb.text}}</span>
+						</li>
+					</ol>
+
+					<div ng-view>
+						<!--Views render here-->
+					</div>
+
+				</div>
+				<!-- /.mainContent -->
+		</div>
+</div>
 
 		</div>
 		<!-- /#programs-calendar -->
