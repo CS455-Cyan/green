@@ -29,6 +29,8 @@
 					Placeholder for edit buttons, remove buttons, and add buttons added;
 -->
 
+<h2>Manage General Education Requirements</h2>
+
 <!--"Areas" accordions-->
 <div class="panel-group" id="areaAccordion" role="tablist" aria-multiselectable="false">
   
@@ -59,22 +61,14 @@
 					<div ng-repeat="(gIndex, requirements) in generalRequirements.requirements" class="panel panel-default">
     				<div class="panel-heading" role="tab">
       				<h4 class="panel-title">
-        				<a role="button" data-toggle="collapse" data-parent="#groupsAccordion-{{index}}" data-target="#groupCollapse{{index}}-{{gIndex}}">
-										
-									<!--TITLE -- courtesy of Graem Cook-->
-									
-<!--THIS SECTION REQUIRES JAVASCRIPT-->
+        				<a ng-click="clickCollapse('#groupCollapse'+index+'-'+gIndex)" role="button" data-toggle="collapse" data-parent="#groupsAccordion-{{index}}" data-target="#groupCollapse{{index}}-{{gIndex}}">
 									{{requirements.name}}: {{requirements.credit}} hours 
-									<a class="glyphicon glyphicon-edit btn" ng-click="editRequirement = editRequirement" ng-show="!editRequirement"></a>
-									<textarea ng-model="requirements.name" ng-show="editRequirement==true"></textarea>
-									<a class="glyphicon glyphicon-ok btn btn-success" ng-click="editRequirement = !editRequirement; pushRequirementsChange(requirements)" ng-show="editRequirement"></a>
-									<a class="glyphicon glyphicon-remove btn btn-danger" ng-click="editRequirement = !editRequirement; refresh()" ng-show="editRequirement"></a>
-									
-<!--THIS SECTION REQUIRES JAVASCRIPT AND OTHER EDITING-->
-									
-									<a class="glyphicon glyphicon-trash btn" ng-click="editRequirement = editRequirement" ng-show="!editRequirement"></a>
-									
         				</a>
+								<!--TITLE -- courtesy of Graem Cook-->
+								<button class="btn btn-danger pull-right" ng-click="removeGroup(requirements._id)">
+									<span class="glyphicon glyphicon-trash"></span>
+								</button>
+								<div class="clearfix"></div>
       				</h4>
     				</div>
 						<div id="groupCollapse{{index}}-{{gIndex}}" class="panel-collapse collapse" role="tabpanel">
@@ -83,41 +77,41 @@
 <!--ITEM CONTENT - BUTTONS AND EDITS AND COURSE LIST AND STUFF-->
 								
 								<div class="accessItems" ng-repeat="(hIndex, items) in requirements.items">
-									<div class="writeInDisplay" ng-if="items.isWriteIn == true">
+									<div class="writeInDisplay" ng-show="items.isWriteIn == true">
 										
-										<div class="unequalWHours" ng-if="items.writeIn.hours.min != items.writeIn.hours.max">
+										<div class="unequalWHours" ng-show="items.writeIn.hours.min != items.writeIn.hours.max">
 											
 <!--THIS SECTION REQUIRES JAVASCRIPT AND OTHER EDITING-->
 											
 											{{items.writeIn.content}}: {{items.writeIn.hours.min}}-{{items.writeIn.hours.max}} hours <a class="glyphicon glyphicon-edit btn" ng-click="editWriteIn = editWriteIn" ng-show="!editWriteIn"></a>
 										</div>
-										<div class="equalWHours" ng-if="items.writeIn.hours.min == items.writeIn.hours.max">
+										<div class="equalWHours" ng-show="items.writeIn.hours.min == items.writeIn.hours.max">
 											{{items.writeIn.content}}: {{items.writeIn.hours.min}} <a class="glyphicon glyphicon-edit btn" ng-click="editWriteIn = editWriteIn" ng-show="!editWriteIn"></a>
 										</div>
 									</div>
 									
 <!--THIS SECTION REQUIRES JAVASCRIPT AND OTHER EDITING-->
 									
-									<div class="coursesDisplay" ng-if="items.isWriteIn == false" ng-repeat="(cIndex, course) in items.courses">
-										<div class="unequalHours" ng-if="course.hours.min != course.hours.max">
+									<div class="coursesDisplay" ng-show="items.isWriteIn == false" ng-repeat="(cIndex, course) in items.courses">
+										<div class="unequalHours" ng-show="course.hours.min != course.hours.max">
 											{{course.title}} ({{course.subject.abbreviation}} {{course.number}}): {{course.hours.min}} - {{course.hours.max}} <a class="glyphicon glyphicon-edit btn" ng-click="editCourseList = editCourseList" ng-show="!editCourseList"></a> <a class="glyphicon glyphicon-trash btn" ng-click="editCourseList = editCourseList" ng-show="!editCourseList"></a>
 										</div>
 										
 <!--THIS SECTION REQUIRES JAVASCRIPT AND OTHER EDITING-->
 										
-										<div class="unequalHours" ng-if="course.hours.min == course.hours.max">
+										<div class="unequalHours" ng-show="course.hours.min == course.hours.max">
 										{{course.title}} ({{course.subject.abbreviation}} {{course.number}}): {{course.hours.min}} <a class="glyphicon glyphicon-edit btn" ng-click="editCourseList = editCourseList" ng-show="!editCourseList"></a> <a class="glyphicon glyphicon-trash btn" ng-click="editCourseList = editCourseList" ng-show="!editCourseList"></a>
 										</div>
 									</div>
 									
 <!--THIS SECTION REQUIRES JAVASCRIPT AND OTHER EDITING-->
 									
-									<div class="addToList" ng-if="items.isWriteIn == false">
+									<div class="addToList" ng-show="items.isWriteIn == false">
 										[ADD COURSE TO LIST BUTTON]
 									</div>
 								
 									<fieldset>
-										<div class="writeInToggle" ng-if="items.isWriteIn == true">
+										<div class="writeInToggle" ng-show="items.isWriteIn == true">
 											<div class="btn-writeIns" data-toggle="buttons">
   											<label class="btn btn-default">
 													
@@ -134,7 +128,7 @@
 											</div>
 										</div>
 										
-										<div class="writeInToggle" ng-if="items.isWriteIn == false">
+										<div class="writeInToggle" ng-show="items.isWriteIn == false">
 											<div class="btn-writeIns" data-toggle="buttons">
   											<label class="btn btn-default active">
 													
@@ -155,39 +149,12 @@
 									<!--AND/OR Toggle Buttons-->
 									
 									<fieldset>
-										<div class="AndOrToggle" ng-if="items.separator == 'AND'">
-											<div class="btn-writeIns" data-toggle="buttons">
-  											<label class="btn btn-default">
-													
-<!--THIS SECTION REQUIRES JAVASCRIPT AND OTHER EDITING-->
-													
-    											<input type="radio" name="AND" id="option1" autocomplete="off" > AND
-  											</label>
-  											<label class="btn btn-default active">
-													
-<!--THIS SECTION REQUIRES JAVASCRIPT AND OTHER EDITING-->
-													
-    											<input type="radio" name="OR" id="option2" autocomplete="off" checked> OR
-  											</label>
-											</div>
+
+										<div class="btn-group">
+												<label class="btn btn-default" ng-model="items.separator" btn-radio="'AND'">AND</label>
+												<label class="btn btn-default" ng-model="items.separator" btn-radio="'OR'">OR</label>
 										</div>
-										
-										<div class="AndOrToggle" ng-if="items.separator == 'OR'">
-											<div class="btn-writeIns" data-toggle="buttons">
-  											<label class="btn btn-default active">
-													
-<!--THIS SECTION REQUIRES JAVASCRIPT AND OTHER EDITING-->
-													
-    											<input type="radio" name="writeIn" id="option1" autocomplete="off" checked> AND
-												</label>
-  											<label class="btn btn-default">
-													
-<!--THIS SECTION REQUIRES JAVASCRIPT AND OTHER EDITING-->
-													
-    											<input type="radio" name="writeIn" id="option2" autocomplete="off"> OR
-  											</label>
-											</div>
-										</div>
+
 									</fieldset>
 									
 								</div>

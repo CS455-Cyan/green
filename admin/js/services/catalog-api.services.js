@@ -429,7 +429,7 @@ angular.module('AppAdmin')
 						"items": [
 							{
 								"credit": "0",
-								"separator": "OR",
+								"separator": "AND",
 								"_id": "5714799c0d1ca57305e7edea",
 								"courses": []
 							}

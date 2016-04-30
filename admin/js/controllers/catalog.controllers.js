@@ -37,13 +37,20 @@
 							$scope.editRequirement = false;
 							$scope.editWriteIn = false;
 							$scope.editCourseList = false;
-							$scope.requirementID = requirements._id;
+							//$scope.requirementID = requirements._id;
+							
+							CatalogAPI.listGeneralRequirements(function(areas) {
+								$scope.areas = areas;
+								//console.log(generalRequirements)
+							})
 							
 							var callback = function(areas){
 								$scope.areas = areas;
 							}
 							
-							$scope.pushRequirementsChange = function()
+							$scope.pushRequirementsChange = function() {
+								//
+							}
 							
 							//make a call to the database to update a requirement with given id
 							$scope.updateRequirement = function(requirementId) {
