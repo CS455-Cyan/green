@@ -1,0 +1,213 @@
+<!--
+    Description: Display general requirements as drop down boxes divided by Area
+		Input: 
+		  area: Label for a section of general requirements fitting under and "Area" requirement 				set;
+		  area.area: Stores the Area to which a set of requirements belongs;
+		Output:
+			area: Currently displays all data stored under the broad label "areas";
+		Created: Seth Putman 04/22/2016
+			With assistance from: Graem Cook;
+		Modified:
+			04/23/2016:
+				Added "groups" accordion inside "areas" accordion;
+				Modified names in "areas" accordian for clarity;
+				"Area" label changed to "generalRequirements";
+				"groups" accordion:
+					Uses the scope "generalRequirements.requirements";
+					Performs the same function as "areas" accordion, except it pulls data from the "requirements" array inside the the "generalRequirements" array;
+				Inserted "items" accordion inside "groups" accordion;
+				"items" accordion:
+					Currently non-functional;
+			04/27/2016:
+				Modified "requirements" and "items" accordions to properly display hours
+			04/28/2016:
+				Major restructuring to everything under the "items" accordion:
+					"items" is not longer an accordion;
+					"item" field now displayed under "requirements" dropdown;
+					radio buttons now displayed inside "requirements" dropdown;
+					radio buttons now appropriately display "isWriteIn" and "separator" status;
+					Placeholder for edit buttons, remove buttons, and add buttons added;
+-->
+
+<!--"Areas" accordions-->
+<div class="panel-group" id="areaAccordion" role="tablist" aria-multiselectable="false">
+  
+  <div ng-repeat="(index, generalRequirements) in areas" class="panel panel-default">
+    <div class="panel-heading" role="tab" id="heading{{index}}">
+      <h4 class="panel-title">
+        <a role="button" data-toggle="collapse" data-parent="#areaAccordion" data-target="#areaCollapse{{index}}">
+          
+					<!--Title, not content-->
+					Area {{generalRequirements.area}}: {{generalRequirements.name}}
+					
+        </a>
+      </h4>
+    </div>
+    <div id="areaCollapse{{index}}" class="panel-collapse collapse" role="tabpanel">
+      <div class="panel-body">
+				<!--CONTENT-->
+				
+				<!--
+					04/23/2016 
+						Added smaller accordion within "areas" accordion
+						Editing names in "groups" accordion to remove conflict in heierarchy
+				-->
+				
+<!--"Requirements" accordion-->
+				<div class="panel-group" id="groupsAccordion-{{index}}" role="tablist" aria-multiselectable="false">
+					
+					<div ng-repeat="(gIndex, requirements) in generalRequirements.requirements" class="panel panel-default">
+    				<div class="panel-heading" role="tab">
+      				<h4 class="panel-title">
+        				<a role="button" data-toggle="collapse" data-parent="#groupsAccordion-{{index}}" data-target="#groupCollapse{{index}}-{{gIndex}}">
+										
+									<!--TITLE -- courtesy of Graem Cook-->
+									
+<!--THIS SECTION REQUIRES JAVASCRIPT-->
+									{{requirements.name}}: {{requirements.credit}} hours 
+									<a class="glyphicon glyphicon-edit btn" ng-click="editRequirement = editRequirement" ng-show="!editRequirement"></a>
+									<textarea ng-model="requirements.name" ng-show="editRequirement==true"></textarea>
+									<a class="glyphicon glyphicon-ok btn btn-success" ng-click="editRequirement = !editRequirement; pushRequirementsChange(requirements)" ng-show="editRequirement"></a>
+									<a class="glyphicon glyphicon-remove btn btn-danger" ng-click="editRequirement = !editRequirement; refresh()" ng-show="editRequirement"></a>
+									
+<!--THIS SECTION REQUIRES JAVASCRIPT AND OTHER EDITING-->
+									
+									<a class="glyphicon glyphicon-trash btn" ng-click="editRequirement = editRequirement" ng-show="!editRequirement"></a>
+									
+        				</a>
+      				</h4>
+    				</div>
+						<div id="groupCollapse{{index}}-{{gIndex}}" class="panel-collapse collapse" role="tabpanel">
+      				<div class="panel-body">
+								
+<!--ITEM CONTENT - BUTTONS AND EDITS AND COURSE LIST AND STUFF-->
+								
+								<div class="accessItems" ng-repeat="(hIndex, items) in requirements.items">
+									<div class="writeInDisplay" ng-if="items.isWriteIn == true">
+										
+										<div class="unequalWHours" ng-if="items.writeIn.hours.min != items.writeIn.hours.max">
+											
+<!--THIS SECTION REQUIRES JAVASCRIPT AND OTHER EDITING-->
+											
+											{{items.writeIn.content}}: {{items.writeIn.hours.min}}-{{items.writeIn.hours.max}} hours <a class="glyphicon glyphicon-edit btn" ng-click="editWriteIn = editWriteIn" ng-show="!editWriteIn"></a>
+										</div>
+										<div class="equalWHours" ng-if="items.writeIn.hours.min == items.writeIn.hours.max">
+											{{items.writeIn.content}}: {{items.writeIn.hours.min}} <a class="glyphicon glyphicon-edit btn" ng-click="editWriteIn = editWriteIn" ng-show="!editWriteIn"></a>
+										</div>
+									</div>
+									
+<!--THIS SECTION REQUIRES JAVASCRIPT AND OTHER EDITING-->
+									
+									<div class="coursesDisplay" ng-if="items.isWriteIn == false" ng-repeat="(cIndex, course) in items.courses">
+										<div class="unequalHours" ng-if="course.hours.min != course.hours.max">
+											{{course.title}} ({{course.subject.abbreviation}} {{course.number}}): {{course.hours.min}} - {{course.hours.max}} <a class="glyphicon glyphicon-edit btn" ng-click="editCourseList = editCourseList" ng-show="!editCourseList"></a> <a class="glyphicon glyphicon-trash btn" ng-click="editCourseList = editCourseList" ng-show="!editCourseList"></a>
+										</div>
+										
+<!--THIS SECTION REQUIRES JAVASCRIPT AND OTHER EDITING-->
+										
+										<div class="unequalHours" ng-if="course.hours.min == course.hours.max">
+										{{course.title}} ({{course.subject.abbreviation}} {{course.number}}): {{course.hours.min}} <a class="glyphicon glyphicon-edit btn" ng-click="editCourseList = editCourseList" ng-show="!editCourseList"></a> <a class="glyphicon glyphicon-trash btn" ng-click="editCourseList = editCourseList" ng-show="!editCourseList"></a>
+										</div>
+									</div>
+									
+<!--THIS SECTION REQUIRES JAVASCRIPT AND OTHER EDITING-->
+									
+									<div class="addToList" ng-if="items.isWriteIn == false">
+										[ADD COURSE TO LIST BUTTON]
+									</div>
+								
+									<fieldset>
+										<div class="writeInToggle" ng-if="items.isWriteIn == true">
+											<div class="btn-writeIns" data-toggle="buttons">
+  											<label class="btn btn-default">
+													
+<!--THIS SECTION REQUIRES JAVASCRIPT AND OTHER EDITING-->
+													
+    											<input type="radio" name="writeIn" id="option1" autocomplete="off" > Course List
+  											</label>
+  											<label class="btn btn-default active">
+													
+<!--THIS SECTION REQUIRES JAVASCRIPT AND OTHER EDITING-->
+													
+    											<input type="radio" name="writeIn" id="option2" autocomplete="off" checked> Write-In
+  											</label>
+											</div>
+										</div>
+										
+										<div class="writeInToggle" ng-if="items.isWriteIn == false">
+											<div class="btn-writeIns" data-toggle="buttons">
+  											<label class="btn btn-default active">
+													
+<!--THIS SECTION REQUIRES JAVASCRIPT AND OTHER EDITING-->
+													
+													<input type="radio" name="writeIn" id="option1" autocomplete="off" checked> Course List
+  											</label>
+  											<label class="btn btn-default">
+													
+<!--THIS SECTION REQUIRES JAVASCRIPT AND OTHER EDITING-->
+													
+    											<input type="radio" name="writeIn" id="option2" autocomplete="off"> Write-In
+  											</label>
+											</div>
+										</div>
+									</fieldset>
+									
+									<!--AND/OR Toggle Buttons-->
+									
+									<fieldset>
+										<div class="AndOrToggle" ng-if="items.separator == 'AND'">
+											<div class="btn-writeIns" data-toggle="buttons">
+  											<label class="btn btn-default">
+													
+<!--THIS SECTION REQUIRES JAVASCRIPT AND OTHER EDITING-->
+													
+    											<input type="radio" name="AND" id="option1" autocomplete="off" > AND
+  											</label>
+  											<label class="btn btn-default active">
+													
+<!--THIS SECTION REQUIRES JAVASCRIPT AND OTHER EDITING-->
+													
+    											<input type="radio" name="OR" id="option2" autocomplete="off" checked> OR
+  											</label>
+											</div>
+										</div>
+										
+										<div class="AndOrToggle" ng-if="items.separator == 'OR'">
+											<div class="btn-writeIns" data-toggle="buttons">
+  											<label class="btn btn-default active">
+													
+<!--THIS SECTION REQUIRES JAVASCRIPT AND OTHER EDITING-->
+													
+    											<input type="radio" name="writeIn" id="option1" autocomplete="off" checked> AND
+												</label>
+  											<label class="btn btn-default">
+													
+<!--THIS SECTION REQUIRES JAVASCRIPT AND OTHER EDITING-->
+													
+    											<input type="radio" name="writeIn" id="option2" autocomplete="off"> OR
+  											</label>
+											</div>
+										</div>
+									</fieldset>
+									
+								</div>
+								
+								
+      				</div>
+    				</div>
+						
+ 					</div>
+					
+<!--THIS SECTION REQUIRES JAVASCRIPT AND OTHER EDITING-->
+					
+					<div class="addRequirement">
+						[ADD REQUIREMENT]
+					</div>
+				</div>
+<!--END REQUIREMENTS ACCORDION-->
+				
+    	</div>
+  	</div>
+	</div>
+<!--END AREAS ACCORDION-->
+</div>

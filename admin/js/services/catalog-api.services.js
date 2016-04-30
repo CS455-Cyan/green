@@ -45,6 +45,24 @@ angular.module('AppAdmin')
 		};
 		
 		/*
+			Function: API.updateGeneralRequirement
+			Description: Update a general requirement
+			Input:
+				requirementId: id of requirement to update
+				requirementObject: new data
+				callback: function to execute once backend returns data
+			Output:
+			Created: Seth Putman 04/27/2016
+			Modified:
+		*/
+		this.updateGeneralRequirement = function(requirementId, requirementObject, callback) {
+			var data = {
+				success: true
+			}
+			callback(data.success);
+		};
+		
+		/*
 			Function: API.getTextSection
 			Description: Fetch a specific text section by id
 			Input:
@@ -293,6 +311,7 @@ angular.module('AppAdmin')
 								"credit": "1 - 3",
 								"separator": "AND",
 								"_id": "5714799b0d1ca57305e7edd2",
+								"isWriteIn": true,
 								"writeIn": {
 									"content": "Sing the alphabet backwards",
 									"hours": {
@@ -305,14 +324,15 @@ angular.module('AppAdmin')
 						]
 					},
 					{
-						"credit": "3 - 4",
+						"credit": "6 - 7",
 						"name": "'why do I need these' requirements",
 						"_id": "5716e87951e5065204965464",
 						"items": [
 							{
-								"credit": "3 - 4",
+								"credit": "6 - 7",
 								"separator": "OR",
 								"_id": "5716e87951e5065204965465",
+								"isWriteIn": false,
 								"courses": [
 									{
 										"_id": "571339a2145ab8b471163d11",
@@ -363,15 +383,34 @@ angular.module('AppAdmin')
 				"__v": 0,
 				"requirements": [
 					{
-						"credit": "0",
-						"name": "requirement",
+						"credit": "3 - 4",
+						"name": "'Make it stop' requirements",
 						"_id": "5714799c0d1ca57305e7eddc",
 						"items": [
 							{
 								"credit": "0",
 								"separator": "OR",
 								"_id": "5714799c0d1ca57305e7eddd",
-								"courses": []
+								"isWriteIn": false,
+								"courses": [
+									{
+										"_id": "571339a2145ab8b471163d11",
+										"title": "Programming Languages",
+										"number": "410W",
+										"description": "Fortran...",
+										"subject": {
+											"_id": "5714799b0d1ca57305e7edd4",
+											"name": "Computer Science",
+											"abbreviation": "CS",
+											"__v": 0,
+										},
+										"hours": {
+											"min": 3,
+											"max": 4
+										},
+										"offerings": []
+									}
+								]
 							}
 						]
 					}
