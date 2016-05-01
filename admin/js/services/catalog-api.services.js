@@ -45,6 +45,53 @@ angular.module('AppAdmin')
 		};
 		
 		/*
+			Function: API.addGeneralRequirement
+			Description: Add a general requirement to an area
+			Input:
+				callback: function to execute on completion
+			Output:
+				callback is called on completion, with the result passed in as a parameter
+			Created: Tyler Yasaka 05/1/2016
+			Modified:
+		*/
+		this.addGeneralRequirement = function(area, requirementObject, callback) {
+			console.log('addGeneralRequirement')
+			callback(true);
+		};
+		
+		/*
+			Function: API.updateGeneralRequirement
+			Description: Update a general requirement
+			Input:
+				requirementObject: new data
+				callback: function to execute once backend returns data
+			Output:
+			Created: Seth Putman 04/27/2016
+			Modified:
+		*/
+		this.updateGeneralRequirement = function(area, requirementObject, callback) {
+			var data = {
+				success: true
+			}
+			callback(data.success);
+		};
+		
+		/*
+			Function: API.removeGeneralRequirement
+			Description: Remove a general requirement from an area
+			Input:
+				callback: function to execute on completion
+			Output:
+				callback is called on completion, with the result passed in as a parameter
+			Created: Tyler Yasaka 05/1/2016
+			Modified:
+		*/
+		this.removeGeneralRequirement = function(area, requirementId, callback) {
+			console.log('addGeneralRequirement')
+			callback(true);
+		};
+		
+		/*
 			Function: API.getTextSection
 			Description: Fetch a specific text section by id
 			Input:
@@ -209,6 +256,22 @@ angular.module('AppAdmin')
 			}
 			callback(result.category, result.department, result.program);
 		};
+		
+		
+		/*
+			Function: API.listCourses
+			Description: Fetch a list of all courses
+			Input:
+				callback: function to execute once courses are found
+			Output:
+				callback is called when courses are found, with the courses passed in as a parameter
+			Created: Tyler Yasaka 04/30/2016
+			Modified:
+		*/
+		this.listCourses = function(callback) {
+			console.log('listCourses')
+			callback(courses);
+		};
 
 		/*
 			Function: API.getCourse
@@ -246,7 +309,7 @@ angular.module('AppAdmin')
 		};
 		
 		/*
-			Function: API.listCourses
+			Function: API.getSubject
 			Description: Fetch a list of all courses for a given subject
 			Input:
 				subject: id of subject to find courses for
@@ -320,6 +383,7 @@ angular.module('AppAdmin')
 				"requirements": [
 					{
 						"credit": "1 - 3",
+						"separator": "OR",
 						"name": "'WTF' requirements",
 						"_id": "5714799b0d1ca57305e7edd1",
 						"items": [
@@ -327,6 +391,7 @@ angular.module('AppAdmin')
 								"credit": "1 - 3",
 								"separator": "AND",
 								"_id": "5714799b0d1ca57305e7edd2",
+								"isWriteIn": true,
 								"writeIn": {
 									"content": "Sing the alphabet backwards",
 									"hours": {
@@ -339,14 +404,16 @@ angular.module('AppAdmin')
 						]
 					},
 					{
-						"credit": "3 - 4",
+						"credit": "6 - 7",
+						"separator": "AND",
 						"name": "'why do I need these' requirements",
 						"_id": "5716e87951e5065204965464",
 						"items": [
 							{
-								"credit": "3 - 4",
+								"credit": "6 - 7",
 								"separator": "OR",
 								"_id": "5716e87951e5065204965465",
+								"isWriteIn": false,
 								"courses": [
 									{
 										"_id": "571339a2145ab8b471163d11",
@@ -358,6 +425,48 @@ angular.module('AppAdmin')
 											"name": "Computer Science",
 											"abbreviation": "CS",
 											"__v": 0
+										},
+										"__v": 0,
+										"hours": {
+											"min": 3,
+											"max": 4
+										},
+										"offerings": []
+									},
+									{
+										"_id": "571339a2145ab8b471163d96",
+										"title": "Artificial Intelligence",
+										"number": "470",
+										"description": "Robots and stuff...",
+										"subject": {
+											"_id": "5714799b0d1ca57305e7edd4",
+											"name": "Computer Science",
+											"abbreviation": "CS",
+											"__v": 0
+										},
+										"__v": 0,
+										"hours": {
+											"min": 3,
+											"max": 3
+										},
+										"offerings": []
+									}
+								]
+							},
+							{
+								"credit": "6 - 7",
+								"separator": "OR",
+								"_id": "5716e87951e5065204965465",
+								"isWriteIn": false,
+								"courses": [
+									{
+										"_id": "571339a2145ab8b471163d97",
+										"title": "Calculus I",
+										"number": "127",
+										"description": "Integrals and Derivatives",
+										"hours": {
+											min: 4,
+											max: 5
 										},
 										"__v": 0,
 										"hours": {
@@ -397,15 +506,35 @@ angular.module('AppAdmin')
 				"__v": 0,
 				"requirements": [
 					{
-						"credit": "0",
-						"name": "requirement",
+						"credit": "3 - 4",
+						"separator": "OR",
+						"name": "'Make it stop' requirements",
 						"_id": "5714799c0d1ca57305e7eddc",
 						"items": [
 							{
 								"credit": "0",
 								"separator": "OR",
 								"_id": "5714799c0d1ca57305e7eddd",
-								"courses": []
+								"isWriteIn": false,
+								"courses": [
+									{
+										"_id": "571339a2145ab8b471163d11",
+										"title": "Programming Languages",
+										"number": "410W",
+										"description": "Fortran...",
+										"subject": {
+											"_id": "5714799b0d1ca57305e7edd4",
+											"name": "Computer Science",
+											"abbreviation": "CS",
+											"__v": 0,
+										},
+										"hours": {
+											"min": 3,
+											"max": 4
+										},
+										"offerings": []
+									}
+								]
 							}
 						]
 					}
@@ -419,12 +548,14 @@ angular.module('AppAdmin')
 				"requirements": [
 					{
 						"credit": "0",
+						"separator": "OR",
 						"name": "requirement",
 						"_id": "5714799c0d1ca57305e7ede9",
 						"items": [
 							{
 								"credit": "0",
-								"separator": "OR",
+								"separator": "AND",
+								"isWriteIn": false,
 								"_id": "5714799c0d1ca57305e7edea",
 								"courses": []
 							}
@@ -440,12 +571,14 @@ angular.module('AppAdmin')
 				"requirements": [
 					{
 						"credit": "0",
+						"separator": "OR",
 						"name": "requirement",
 						"_id": "5714799c0d1ca57305e7edec",
 						"items": [
 							{
 								"credit": "0",
 								"separator": "OR",
+								"isWriteIn": false,
 								"_id": "5714799c0d1ca57305e7eded",
 								"courses": []
 							}
@@ -461,12 +594,14 @@ angular.module('AppAdmin')
 				"requirements": [
 					{
 						"credit": "0",
+						"separator": "OR",
 						"name": "requirement",
 						"_id": "5714799c0d1ca57305e7edef",
 						"items": [
 							{
 								"credit": "0",
 								"separator": "OR",
+								"isWriteIn": false,
 								"_id": "5714799c0d1ca57305e7edf0",
 								"courses": []
 							}

@@ -20,8 +20,7 @@
 				'ngResource',
 				'ngCookies',
 				'ngFileUpload',
-				'ui.bootstrap',
-				'chart.js'
+				'ui.bootstrap'
 			]
 		).run
 		(
@@ -89,6 +88,20 @@
 								}
 							);*/
 						}
+					
+					/*
+						Function: $rootScope.isActivePath
+						Description: Tells whether or not the given path is active
+						Input:
+							path: path to check (String)
+						Output:
+							whether path is active (Boolean)
+						Created: Tyler Yasaka 04/17/2016
+						Modified:
+					*/
+					$rootScope.isActivePath = function(path) {
+						return ($location.path().substr(0, path.length) === path);
+					}
 
 					$rootScope.$on('$routeChangeSuccess',
 						function ()

@@ -54,6 +54,13 @@
 							templateUrl: 'views/catalog/programs/programs.html',
 							controller: 'Catalog-ProgramsCtrl'
 						}
+					).when
+					(
+						'/catalog/general-requirements',
+						{
+							templateUrl: 'views/catalog/general-requirements.html',
+							controller: 'Catalog-General-RequirementsCtrl'
+						}
 					);
 
 				}
