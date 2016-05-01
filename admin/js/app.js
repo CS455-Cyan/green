@@ -20,13 +20,8 @@
 				'ngResource',
 				'ngCookies',
 				'ngFileUpload',
-<<<<<<< HEAD
 				'ui.bootstrap',
-				'chart.js',
-                'ngSanitize'
-=======
-				'ui.bootstrap'
->>>>>>> master
+				'ngSanitize'
 			]
 		).run
 		(
