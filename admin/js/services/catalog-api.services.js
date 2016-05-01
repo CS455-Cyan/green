@@ -42,6 +42,9 @@ angular.module('AppAdmin')
 		this.listGeneralRequirements = function(callback) {
 			console.log('listGeneralRequirements')
 			callback(generalRequirements);
+			getHTTP('/catalog/generalRequirements', function(res) {
+				callback(res.data);
+			});
 		};
 		
 		/*
@@ -225,36 +228,30 @@ angular.module('AppAdmin')
 			Modified:
 		*/
 		this.getProgram = function(categoryId, departmentId, programId, callback) {
-			console.log('getProgram')
-			var result = {
-				category: null,
-				department: null,
-				program: null
-			};
-			var findProgram = function(container) {
-				for(var p in container.programs) {
-					if(container.programs[p]._id == programId) {
-						result.program = container.programs[p];
+			if(departmentId) {
+				getHTTP(
+					'/catalog/programs/categories/' +
+					categoryId +
+					'/departments/' +
+					departmentId +
+					'/programs/' +
+					programId,
+					function(res) {
+						callback(res.data.category, res.data.department, res.data.program);
 					}
-				}
+				);
 			}
-			for(var c in categories) {
-				if(categories[c]._id == categoryId) {
-					result.category = categories[c];
-					if(typeof departmentId != 'undefined') {
-						for(var d in categories[c].departments) {
-							if(categories[c].departments[d]._id == departmentId) {
-								result.department = categories[c].departments[d];
-								findProgram(result.department);
-							}
-						}
+			else {
+				getHTTP(
+					'/catalog/programs/categories/' +
+					categoryId +
+					'/programs/' +
+					programId,
+					function(res) {
+						callback(res.data.category, null, res.data.program);
 					}
-					else {
-						findProgram(result.category);
-					}
-				}
+				);
 			}
-			callback(result.category, result.department, result.program);
 		};
 		
         /*
@@ -273,8 +270,25 @@ angular.module('AppAdmin')
 				Tyler Yasaka 5/1/2016
 		*/
 		this.updateProgram = function(categoryID, departmentID, programID, program, callback) {
-			console.log("updateProgram")
-			callback(true);
+			var url = '/admin/catalog/programs/categoies/' + categoryID;
+			if(departmentID) {
+				url += '/departments/' + departmentID;
+			}
+			url += '/programs/' + programID;
+			putHTTP(url, program, function(res) {
+					callback(res.success);
+			}
+		};
+							
+		this.deleteProgram = function(categoryID, departmentID, programID, callback) {
+			var url = '/admin/catalog/programs/categoies/' + categoryID;
+			if(departmentID) {
+				url += '/departments/' + departmentID;
+			}
+			url += '/programs/' + programID;
+			deleteHTTP(url, function(res) {
+					callback(res.success);
+			}
 		};
 		
 		
@@ -289,8 +303,9 @@ angular.module('AppAdmin')
 			Modified:
 		*/
 		this.listCourses = function(callback) {
-			console.log('listCourses')
-			callback(courses);
+			getHTTP('/catalog/courses', function(res) {
+				callback(res.data);
+			});
 		};
 
 		/*
@@ -1017,5 +1032,57 @@ angular.module('AppAdmin')
 		
 		var facultyAndStaff = "Dr. Roden... 'Nuff said."
 		
+		var urlPrefix = ''; // easily change api url
+		
+		var getHTTP = function(theUrl, callback) {
+			theUrl += urlPrefix;
+			var xmlHttp = new XMLHttpRequest();
+			xmlHttp.onreadystatechange = function() { 
+				if(xmlHttp.readyState == 4 && xmlHttp.status == 200){
+					callback(JSON.parse(xmlHttp.responseText));
+				}
+			}
+			xmlHttp.open("GET", theUrl, true); // true for asynchronous 
+			xmlHttp.send(null);
+		}
+		
+		var postHTTP = function(theUrl, payload, callback) {
+			theUrl += urlPrefix;
+			var xmlHttp = new XMLHttpRequest();
+			http.setRequestHeader("Content-type", "application/json");
+			xmlHttp.onreadystatechange = function() { 
+				if(xmlHttp.readyState == 4 && xmlHttp.status == 200){
+					callback(JSON.parse(xmlHttp.responseText));
+				}
+			}
+			xmlHttp.open("POST", theUrl, true); // true for asynchronous 
+			xmlHttp.send(JSON.stringify(payload));
+		}
+		
+		var putHTTP = function(theUrl, payload, callback) {
+			theUrl += urlPrefix;
+			var xmlHttp = new XMLHttpRequest();
+			http.setRequestHeader("Content-type", "application/json");
+			xmlHttp.onreadystatechange = function() { 
+				if(xmlHttp.readyState == 4 && xmlHttp.status == 200){
+					callback(JSON.parse(xmlHttp.responseText));
+				}
+			}
+			xmlHttp.open("PUT", theUrl, true); // true for asynchronous 
+			xmlHttp.send(JSON.stringify(payload));
+		}
+		
+		var deleteHTTP = function(theUrl, callback) {
+			theUrl = urlPrefix + theUrl;
+			var xmlHttp = new XMLHttpRequest();
+			http.setRequestHeader("Content-type", "application/json");
+			xmlHttp.onreadystatechange = function() { 
+				if(xmlHttp.readyState == 4 && xmlHttp.status == 200){
+					callback(JSON.parse(xmlHttp.responseText));
+				}
+			}
+			xmlHttp.open("DELETE", theUrl, true); // true for asynchronous 
+			xmlHttp.send(null);
+		}
 	}
 );
