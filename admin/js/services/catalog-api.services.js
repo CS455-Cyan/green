@@ -277,7 +277,7 @@ angular.module('AppAdmin')
 			url += '/programs/' + programID;
 			putHTTP(url, program, function(res) {
 					callback(res.success);
-			}
+			});
 		};
 							
 		this.deleteProgram = function(categoryID, departmentID, programID, callback) {
@@ -288,7 +288,7 @@ angular.module('AppAdmin')
 			url += '/programs/' + programID;
 			deleteHTTP(url, function(res) {
 					callback(res.success);
-			}
+			});
 		};
 		
 		
