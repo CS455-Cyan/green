@@ -54,8 +54,21 @@
 							templateUrl: 'views/catalog/programs/programs.html',
 							controller: 'Catalog-ProgramsCtrl'
 						}
+					).when
+					(
+						'/catalog/general-requirements',
+						{
+							templateUrl: 'views/catalog/general-requirements.html',
+							controller: 'Catalog-General-RequirementsCtrl'
+						}
+					).when
+					(
+						'/catalog/faculty-and-staff',
+						{
+							templateUrl: 'views/catalog/faculty-and-staff.html',
+							controller: 'Catalog-FacultyAndStaffCtrl'
+						}
 					);
-
 				}
 			]
 		);

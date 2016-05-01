@@ -42,6 +42,56 @@ angular.module('AppAdmin')
 		this.listGeneralRequirements = function(callback) {
 			console.log('listGeneralRequirements')
 			callback(generalRequirements);
+			getHTTP('/catalog/generalRequirements', function(res) {
+				callback(res.data);
+			});
+		};
+		
+		/*
+			Function: API.addGeneralRequirement
+			Description: Add a general requirement to an area
+			Input:
+				callback: function to execute on completion
+			Output:
+				callback is called on completion, with the result passed in as a parameter
+			Created: Tyler Yasaka 05/1/2016
+			Modified:
+		*/
+		this.addGeneralRequirement = function(area, requirementObject, callback) {
+			console.log('addGeneralRequirement')
+			callback(true);
+		};
+		
+		/*
+			Function: API.updateGeneralRequirement
+			Description: Update a general requirement
+			Input:
+				requirementObject: new data
+				callback: function to execute once backend returns data
+			Output:
+			Created: Seth Putman 04/27/2016
+			Modified:
+		*/
+		this.updateGeneralRequirement = function(area, requirementObject, callback) {
+			var data = {
+				success: true
+			}
+			callback(data.success);
+		};
+		
+		/*
+			Function: API.removeGeneralRequirement
+			Description: Remove a general requirement from an area
+			Input:
+				callback: function to execute on completion
+			Output:
+				callback is called on completion, with the result passed in as a parameter
+			Created: Tyler Yasaka 05/1/2016
+			Modified:
+		*/
+		this.removeGeneralRequirement = function(area, requirementId, callback) {
+			console.log('addGeneralRequirement')
+			callback(true);
 		};
 		
 		/*
@@ -178,36 +228,84 @@ angular.module('AppAdmin')
 			Modified:
 		*/
 		this.getProgram = function(categoryId, departmentId, programId, callback) {
-			console.log('getProgram')
-			var result = {
-				category: null,
-				department: null,
-				program: null
-			};
-			var findProgram = function(container) {
-				for(var p in container.programs) {
-					if(container.programs[p]._id == programId) {
-						result.program = container.programs[p];
+			if(departmentId) {
+				getHTTP(
+					'/catalog/programs/categories/' +
+					categoryId +
+					'/departments/' +
+					departmentId +
+					'/programs/' +
+					programId,
+					function(res) {
+						callback(res.data.category, res.data.department, res.data.program);
 					}
-				}
+				);
 			}
-			for(var c in categories) {
-				if(categories[c]._id == categoryId) {
-					result.category = categories[c];
-					if(typeof departmentId != 'undefined') {
-						for(var d in categories[c].departments) {
-							if(categories[c].departments[d]._id == departmentId) {
-								result.department = categories[c].departments[d];
-								findProgram(result.department);
-							}
-						}
+			else {
+				getHTTP(
+					'/catalog/programs/categories/' +
+					categoryId +
+					'/programs/' +
+					programId,
+					function(res) {
+						callback(res.data.category, null, res.data.program);
 					}
-					else {
-						findProgram(result.category);
-					}
-				}
+				);
 			}
-			callback(result.category, result.department, result.program);
+		};
+		
+        /*
+			Function: API.updateProgram
+			Description: Update a program by ID
+			Input:
+				categoryID: id of category program is in (String)
+				departmentID: id of department program is in (String)
+				programID: id of program to update (String)
+				program: data to update (object)
+				callback: function to execute once the department is changed
+			Output:
+				callback is called when department is changed, with a boolean flag passed in as a parameter
+			Created: Graem Cook 4/28/2016
+			Modified:
+				Tyler Yasaka 5/1/2016
+		*/
+		this.updateProgram = function(categoryID, departmentID, programID, program, callback) {
+			var url = '/admin/catalog/programs/categoies/' + categoryID;
+			if(departmentID) {
+				url += '/departments/' + departmentID;
+			}
+			url += '/programs/' + programID;
+			putHTTP(url, program, function(res) {
+					callback(res.success);
+			}
+		};
+							
+		this.deleteProgram = function(categoryID, departmentID, programID, callback) {
+			var url = '/admin/catalog/programs/categoies/' + categoryID;
+			if(departmentID) {
+				url += '/departments/' + departmentID;
+			}
+			url += '/programs/' + programID;
+			deleteHTTP(url, function(res) {
+					callback(res.success);
+			}
+		};
+		
+		
+		/*
+			Function: API.listCourses
+			Description: Fetch a list of all courses
+			Input:
+				callback: function to execute once courses are found
+			Output:
+				callback is called when courses are found, with the courses passed in as a parameter
+			Created: Tyler Yasaka 04/30/2016
+			Modified:
+		*/
+		this.listCourses = function(callback) {
+			getHTTP('/catalog/courses', function(res) {
+				callback(res.data);
+			});
 		};
 
 		/*
@@ -246,7 +344,7 @@ angular.module('AppAdmin')
 		};
 		
 		/*
-			Function: API.listCourses
+			Function: API.getSubject
 			Description: Fetch a list of all courses for a given subject
 			Input:
 				subject: id of subject to find courses for
@@ -291,6 +389,22 @@ angular.module('AppAdmin')
 			callback(facultyAndStaff);
 		};
 		
+        /*
+			Function: this.updateFacultyAndStaff
+			Description: Updates the Faculty And Staff
+			Input:
+				id: id of text section to fetch (String)
+				callback: function to execute once the text section is found
+			Output:
+				callback is called when text section is found, with the text section passed in as a parameter
+			Created: Sean Vaccaro 4/23/2016
+			Modified:
+		*/
+        this.updateFacultyAndStaff = function(facultyAndStaffData, callback){
+            facultyAndStaff = facultyAndStaffData;
+            callback(true);
+        };
+        
 		// Sample data
 		
 		var textSections = [
@@ -320,6 +434,7 @@ angular.module('AppAdmin')
 				"requirements": [
 					{
 						"credit": "1 - 3",
+						"separator": "OR",
 						"name": "'WTF' requirements",
 						"_id": "5714799b0d1ca57305e7edd1",
 						"items": [
@@ -327,6 +442,7 @@ angular.module('AppAdmin')
 								"credit": "1 - 3",
 								"separator": "AND",
 								"_id": "5714799b0d1ca57305e7edd2",
+								"isWriteIn": true,
 								"writeIn": {
 									"content": "Sing the alphabet backwards",
 									"hours": {
@@ -339,14 +455,16 @@ angular.module('AppAdmin')
 						]
 					},
 					{
-						"credit": "3 - 4",
+						"credit": "6 - 7",
+						"separator": "AND",
 						"name": "'why do I need these' requirements",
 						"_id": "5716e87951e5065204965464",
 						"items": [
 							{
-								"credit": "3 - 4",
+								"credit": "6 - 7",
 								"separator": "OR",
 								"_id": "5716e87951e5065204965465",
+								"isWriteIn": false,
 								"courses": [
 									{
 										"_id": "571339a2145ab8b471163d11",
@@ -358,6 +476,48 @@ angular.module('AppAdmin')
 											"name": "Computer Science",
 											"abbreviation": "CS",
 											"__v": 0
+										},
+										"__v": 0,
+										"hours": {
+											"min": 3,
+											"max": 4
+										},
+										"offerings": []
+									},
+									{
+										"_id": "571339a2145ab8b471163d96",
+										"title": "Artificial Intelligence",
+										"number": "470",
+										"description": "Robots and stuff...",
+										"subject": {
+											"_id": "5714799b0d1ca57305e7edd4",
+											"name": "Computer Science",
+											"abbreviation": "CS",
+											"__v": 0
+										},
+										"__v": 0,
+										"hours": {
+											"min": 3,
+											"max": 3
+										},
+										"offerings": []
+									}
+								]
+							},
+							{
+								"credit": "6 - 7",
+								"separator": "OR",
+								"_id": "5716e87951e5065204965465",
+								"isWriteIn": false,
+								"courses": [
+									{
+										"_id": "571339a2145ab8b471163d97",
+										"title": "Calculus I",
+										"number": "127",
+										"description": "Integrals and Derivatives",
+										"hours": {
+											min: 4,
+											max: 5
 										},
 										"__v": 0,
 										"hours": {
@@ -397,15 +557,35 @@ angular.module('AppAdmin')
 				"__v": 0,
 				"requirements": [
 					{
-						"credit": "0",
-						"name": "requirement",
+						"credit": "3 - 4",
+						"separator": "OR",
+						"name": "'Make it stop' requirements",
 						"_id": "5714799c0d1ca57305e7eddc",
 						"items": [
 							{
 								"credit": "0",
 								"separator": "OR",
 								"_id": "5714799c0d1ca57305e7eddd",
-								"courses": []
+								"isWriteIn": false,
+								"courses": [
+									{
+										"_id": "571339a2145ab8b471163d11",
+										"title": "Programming Languages",
+										"number": "410W",
+										"description": "Fortran...",
+										"subject": {
+											"_id": "5714799b0d1ca57305e7edd4",
+											"name": "Computer Science",
+											"abbreviation": "CS",
+											"__v": 0,
+										},
+										"hours": {
+											"min": 3,
+											"max": 4
+										},
+										"offerings": []
+									}
+								]
 							}
 						]
 					}
@@ -419,12 +599,14 @@ angular.module('AppAdmin')
 				"requirements": [
 					{
 						"credit": "0",
+						"separator": "OR",
 						"name": "requirement",
 						"_id": "5714799c0d1ca57305e7ede9",
 						"items": [
 							{
 								"credit": "0",
-								"separator": "OR",
+								"separator": "AND",
+								"isWriteIn": false,
 								"_id": "5714799c0d1ca57305e7edea",
 								"courses": []
 							}
@@ -440,12 +622,14 @@ angular.module('AppAdmin')
 				"requirements": [
 					{
 						"credit": "0",
+						"separator": "OR",
 						"name": "requirement",
 						"_id": "5714799c0d1ca57305e7edec",
 						"items": [
 							{
 								"credit": "0",
 								"separator": "OR",
+								"isWriteIn": false,
 								"_id": "5714799c0d1ca57305e7eded",
 								"courses": []
 							}
@@ -461,12 +645,14 @@ angular.module('AppAdmin')
 				"requirements": [
 					{
 						"credit": "0",
+						"separator": "OR",
 						"name": "requirement",
 						"_id": "5714799c0d1ca57305e7edef",
 						"items": [
 							{
 								"credit": "0",
 								"separator": "OR",
+								"isWriteIn": false,
 								"_id": "5714799c0d1ca57305e7edf0",
 								"courses": []
 							}
@@ -518,10 +704,12 @@ angular.module('AppAdmin')
 									{
 										"name": "Core Requirements",
 										"_id": "571339a3145ab8b471163da0",
+										separator: "AND",
 										"items": [
 											{
 												"separator": "OR",
 												"_id": "571339a3145ab8b471163da2",
+												isWriteIn: false,
 												"courses": [
 													{
 														"_id": "571339a2145ab8b471163d96",
@@ -565,6 +753,7 @@ angular.module('AppAdmin')
 											{
 												"separator": "AND",
 												"_id": "571339a3145ab8b471163da3",
+												isWriteIn: false,
 												"courses": [
 													{
 														"_id": "571339a2145ab8b471163d97",
@@ -843,5 +1032,57 @@ angular.module('AppAdmin')
 		
 		var facultyAndStaff = "Dr. Roden... 'Nuff said."
 		
+		var urlPrefix = ''; // easily change api url
+		
+		var getHTTP = function(theUrl, callback) {
+			theUrl += urlPrefix;
+			var xmlHttp = new XMLHttpRequest();
+			xmlHttp.onreadystatechange = function() { 
+				if(xmlHttp.readyState == 4 && xmlHttp.status == 200){
+					callback(JSON.parse(xmlHttp.responseText));
+				}
+			}
+			xmlHttp.open("GET", theUrl, true); // true for asynchronous 
+			xmlHttp.send(null);
+		}
+		
+		var postHTTP = function(theUrl, payload, callback) {
+			theUrl += urlPrefix;
+			var xmlHttp = new XMLHttpRequest();
+			http.setRequestHeader("Content-type", "application/json");
+			xmlHttp.onreadystatechange = function() { 
+				if(xmlHttp.readyState == 4 && xmlHttp.status == 200){
+					callback(JSON.parse(xmlHttp.responseText));
+				}
+			}
+			xmlHttp.open("POST", theUrl, true); // true for asynchronous 
+			xmlHttp.send(JSON.stringify(payload));
+		}
+		
+		var putHTTP = function(theUrl, payload, callback) {
+			theUrl += urlPrefix;
+			var xmlHttp = new XMLHttpRequest();
+			http.setRequestHeader("Content-type", "application/json");
+			xmlHttp.onreadystatechange = function() { 
+				if(xmlHttp.readyState == 4 && xmlHttp.status == 200){
+					callback(JSON.parse(xmlHttp.responseText));
+				}
+			}
+			xmlHttp.open("PUT", theUrl, true); // true for asynchronous 
+			xmlHttp.send(JSON.stringify(payload));
+		}
+		
+		var deleteHTTP = function(theUrl, callback) {
+			theUrl = urlPrefix + theUrl;
+			var xmlHttp = new XMLHttpRequest();
+			http.setRequestHeader("Content-type", "application/json");
+			xmlHttp.onreadystatechange = function() { 
+				if(xmlHttp.readyState == 4 && xmlHttp.status == 200){
+					callback(JSON.parse(xmlHttp.responseText));
+				}
+			}
+			xmlHttp.open("DELETE", theUrl, true); // true for asynchronous 
+			xmlHttp.send(null);
+		}
 	}
 );
