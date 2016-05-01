@@ -32,8 +32,8 @@
 				'$resource',
 				function($http, $rootScope, $location, $resource)
 				{
-					var logoutAPI = $resource('/apps/api/admin/logout');
-					var sessionAPI = $resource('/apps/api/admin/session');
+					var logoutAPI = $resource('/admin/logout');
+					var sessionAPI = $resource('/admin/session');
 
 					$rootScope.apps = [];
 
@@ -54,25 +54,8 @@
 					$rootScope.checkLogin =
 						function()
 						{
-							//delete this when we integrate with the backend
-							// start delete
-							$rootScope.isLoggedIn = true;
-							$rootScope.apps = [
-								{
-									"id": "catalog",
-									"name": "Catalog",
-									"url": "/catalog"
-								},
-								{
-									"id": "curriculumChangeRequest",
-									"name": "Curriculum Change Request",
-									"url": "/curriculum-change-request"
-								}
-							];
-							// end delete
 						
-							// Uncomment this code when we integrate with the backend
-							/*var apiSession = sessionAPI.get
+							var apiSession = sessionAPI.get
 							(
 								{},
 								function()
@@ -87,7 +70,7 @@
 										$rootScope.apps = apiSession.apps;
 									}
 								}
-							);*/
+							);
 						}
 					
 					/*
