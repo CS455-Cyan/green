@@ -77,6 +77,7 @@ var CatalogAPIService = function() {
 		putHTTP(
 			'/admin/catalog/generalRequirements/' +
 			area +
+			'/' +
 			requirementObject._id,
 			requirementObject,
 			function(res) {
@@ -223,7 +224,7 @@ var CatalogAPIService = function() {
 			departmentId,
 			department,
 			function(res) {
-				callback(res.data);
+				callback(res.success);
 			}
 		);
 	};
@@ -248,7 +249,7 @@ var CatalogAPIService = function() {
 		}
 		url += '/programs/' + programID;
 		getHTTP(url, function(res) {
-				callback(res.success);
+				callback(res.data);
 		});
 	};
 
@@ -389,7 +390,7 @@ var CatalogAPIService = function() {
 			'/admin/catalog/facultyAndStaff',
 			facultyAndStaffData,
 			function(res) {
-				callback(res.data);
+				callback(res.success);
 			}
 		);
 	};

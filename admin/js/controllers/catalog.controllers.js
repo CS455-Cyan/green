@@ -215,14 +215,18 @@
 					$scope.facultyAndStaff = CatalogAPI.getFacultyAndStaff(facultyAndStaffCallback)
 					//var data = CKEDITOR.instances.userEditor.getData();
 					$scope.updateFacultyAndStaff = function(){
-							var callback = function(data){
-									if(data) {
-											alert("Changes were saved successfully.")
-									} else {
-											alert("There was an error saving your changes.")
-									}
-							}
-					CatalogAPI.updateFacultyAndStaff(CKEDITOR.instances.userEditor.getData(), callback);
+						var callback = function(data){
+								if(data) {
+										alert("Changes were saved successfully.")
+								} else {
+										alert("There was an error saving your changes.")
+								}
+						}
+						
+						var payload = {
+							content: CKEDITOR.instances.userEditor.getData()
+						};
+						CatalogAPI.updateFacultyAndStaff(payload, callback);
 					}
 				}
 			]
