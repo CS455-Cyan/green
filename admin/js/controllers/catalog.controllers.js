@@ -20,28 +20,13 @@
 				'$scope',
 				'$rootScope',
 				'$location',
-				function($scope, $rootScope, $location)
+				'$sanitize',
+				function($scope, $rootScope, $location, $sanitize)
 				{
-					CKEDITOR.replace('userEditor');
-					var facultyAndStaffCallback = function(data) {
-							CKEDITOR.instances.userEditor.setData(data);
-					}
-					$scope.facultyAndStaff = CatalogAPI.getFacultyAndStaff(facultyAndStaffCallback)
-					//var data = CKEDITOR.instances.userEditor.getData();
-					$scope.updateFacultyAndStaff = function(){
-							var callback = function(data){
-									if(data) {
-											alert("Changes were saved successfully.")
-									} else {
-											alert("There was an error saving your changes.")
-									}
-							}
-							CatalogAPI.updateFacultyAndStaff(CKEDITOR.instances.userEditor.getData(), callback);
-					}
+					//
 				}
 			]
-		)
-        .controller
+		).controller
 		(
 			'Catalog-CategoriesCtrl',
 			[
@@ -49,7 +34,8 @@
 				'$rootScope',
 				'$location',
 				'CatalogAPI',
-				function($scope, $rootScope, $location, CatalogAPI)
+				'$sanitize',
+				function($scope, $rootScope, $location, CatalogAPI, $sanitize)
 				{
 					$scope.editName = false;
 					$scope.editDescription = false;
@@ -98,7 +84,8 @@
 				'$location',
 				'CatalogAPI',
 				'$routeParams',
-				function($scope, $rootScope, $location, CatalogAPI, $routeParams)
+				'$sanitize',
+				function($scope, $rootScope, $location, CatalogAPI, $routeParams, $sanitize)
 				{
 					$scope.departmentID = $routeParams.departmentID;
 					$scope.categoryID = $routeParams.categoryID;
@@ -142,7 +129,8 @@
 				'$location',
 				'CatalogAPI',
 				'$routeParams',
-				function($scope, $rootScope, $location, CatalogAPI, $routeParams)
+				'$sanitize',
+				function($scope, $rootScope, $location, CatalogAPI, $routeParams, $sanitize)
 				{
 					$scope.programID = $routeParams.programID;
 					$scope.departmentID = $routeParams.departmentID;
@@ -176,7 +164,8 @@
 					'$rootScope',
 					'$location',
 					'CatalogAPI',
-					function($scope, $rootScope, $location, CatalogAPI)
+					'$sanitize',
+					function($scope, $rootScope, $location, CatalogAPI, $sanitize)
 					{
 						$scope.currentlySelected = {
 							area: null
@@ -208,6 +197,35 @@
 						
 					}
 				]
+		).controller
+		(
+			'Catalog-FacultyAndStaffCtrl',
+			[
+				'$scope',
+				'$rootScope',
+				'$location',
+				'$sanitize',
+				'CatalogAPI',
+				function($scope, $rootScope, $location, $sanitize, CatalogAPI)
+				{
+					CKEDITOR.replace('userEditor');
+					var facultyAndStaffCallback = function(data) {
+							CKEDITOR.instances.userEditor.setData(data);
+					}
+					$scope.facultyAndStaff = CatalogAPI.getFacultyAndStaff(facultyAndStaffCallback)
+					//var data = CKEDITOR.instances.userEditor.getData();
+					$scope.updateFacultyAndStaff = function(){
+							var callback = function(data){
+									if(data) {
+											alert("Changes were saved successfully.")
+									} else {
+											alert("There was an error saving your changes.")
+									}
+							}
+					CatalogAPI.updateFacultyAndStaff(CKEDITOR.instances.userEditor.getData(), callback);
+					}
+				}
+			]
 		);
 		
 	}

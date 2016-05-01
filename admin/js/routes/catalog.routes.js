@@ -66,7 +66,7 @@
 						'/catalog/faculty-and-staff',
 						{
 							templateUrl: 'views/catalog/faculty-and-staff.html',
-							controller: 'Catalog-HomeCtrl'
+							controller: 'Catalog-FacultyAndStaffCtrl'
 						}
 					);
 				}
