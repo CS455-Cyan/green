@@ -37,12 +37,46 @@
 							$scope.editRequirement = false;
 							$scope.editWriteIn = false;
 							$scope.editCourseList = false;
+							$scope.currentlySelected = {
+								area: null
+							}
 							//$scope.requirementID = requirements._id;
+							
+							$scope.clickCollapse = function(id) {
+								//
+							}
+							
+							$scope.formatCourseSearch = function(model) {
+								console.log(model)
+								if(model && model.name) {
+									return model.name;
+								}
+								return null;
+							}
+							
+							$scope.matchCourse = function(keyword) {
+									return function(item) {
+										return (
+											(item.title.search(keyword.title) > -1) ||
+											(item.subject.abbreviation.search(keyword.subject.abbreviation) > -1)
+										);
+									};
+							}
 							
 							CatalogAPI.listGeneralRequirements(function(areas) {
 								$scope.areas = areas;
+								if(areas.length) {
+									$scope.currentlySelected.area = areas[0]._id;
+									if(areas[0].requirements.length) {
+										$scope.currentlySelected.group = areas[0].requirements[0]._id;
+									}
+								}
 								//console.log(generalRequirements)
-							})
+							});
+							
+							CatalogAPI.listCourses(function(courses) {
+								$scope.allCourses = courses;
+							});
 							
 							var callback = function(areas){
 								$scope.areas = areas;
