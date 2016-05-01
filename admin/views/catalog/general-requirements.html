@@ -31,8 +31,8 @@
 
 <h2>Manage General Education Requirements</h2>
 
-<strong>Select an area:</strong>
 <div class="form-group">
+	<label>Select an area:</label>
 	<select class="form-control" ng-model="currentlySelected.area" ng-options="area as ('Area ' + area.area + ': ' + area.name) for area in areas">
 		<option value=""></option>
 	</select>
@@ -40,7 +40,7 @@
 
 <div ng-show="currentlySelected.area">
 
-	<strong>Select a requirement:</strong>
+	<label>Select a requirement:</label>
 	<div class="form-group">
 		<select class="form-control" ng-model="currentlySelected.group" ng-options="group as group.name for group in currentlySelected.area.requirements">
 			<option value=""></option>
@@ -48,7 +48,7 @@
 	</div>
 	
 	<div>
-		<button class="btn btn-default">
+		<button class="btn btn-default" ng-click="addRequirement(currentlySelected.area)">
 			<span class="glyphicon glyphicon-plus"></span>
 			Add requirement
 		</button>
@@ -67,15 +67,19 @@
 	<!--"Requirements" accordion-->
 	<div ng-show="currentlySelected.group">
 
-		<h3>
-			{{currentlySelected.group.name}}: {{currentlySelected.group.credit}} hours 
-			<!--TITLE -- courtesy of Graem Cook-->
-			<button class="btn btn-danger pull-right" ng-click="removeGroup(currentlySelected.group._id)">
+		<div class="form-group">
+			<button class="btn btn-danger pull-right" ng-click="removeRequirement(currentlySelected.area.requirements, currentlySelected.group._id)">
 				<span class="glyphicon glyphicon-trash"></span>
 				Delete requirement
 			</button>
-			<div class="clearfix"></div>
-		</h3>
+			<dic class="clearfix"></dic>
+		</div>
+		<div class="form-group">
+			<label>Requirement name:</label>
+			<input ng-model="currentlySelected.group.name" class="form-control" placeholder="Enter a descriptive name for this requirement">
+		</div>
+		<!--TITLE -- courtesy of Graem Cook-->
+		<div class="clearfix"></div>
 
 		<!--AND/OR Toggle Buttons-->
 		<div class="form-group">
@@ -105,10 +109,20 @@
 						<div class="btn-group-sm">
 								<label class="btn btn-default" ng-model="item.isWriteIn" btn-radio="false">Course List</label>
 								<label class="btn btn-default" ng-model="item.isWriteIn" btn-radio="true">Write-in</label>
+								<button class="btn btn-sm btn-warning pull-right" ng-click="removeItem(currentlySelected.group.items, i)">
+									<span class="glyphicon glyphicon-trash"></span>
+									Delete item
+								</button>
 						</div>
 					</div>
 				</div>
 				<div class="accessItems panel-body">
+					
+					<form ng-show="item.isWriteIn">
+						<textarea class="form-control" ng-model="item.writeIn.content" rows="3" placeholder="Write in a custom requirement"></textarea>
+						Minimum credit hours (required): <input type="number" class="form-control" ng-model="item.writeIn.hours.min">
+						Maximum credit hours (optional): <input type="number" class="form-control">
+					</form>
 
 					<div class="coursesDisplay" ng-show="item.isWriteIn == false">
 
@@ -134,13 +148,13 @@
 											<option></option>
 										</select>
 										
-										<input type="text" ng-model="item.courses[cIndex]" placeholder="Search for a course" typeahead="selectedCourse as (selectedCourse.subject.abbreviation + ' ' + selectedCourse.number + ' ' + selectedCourse.title) for selectedCourse in allCourses | filter:$viewValue" class="form-control" typeahead-editable="false">
+										<!--input type="text" ng-model="item.courses[cIndex]" placeholder="Search for a course" typeahead="selectedCourse as (selectedCourse.subject.abbreviation + ' ' + selectedCourse.number + ' ' + selectedCourse.title) for selectedCourse in allCourses | filter:$viewValue" class="form-control" typeahead-editable="false"-->
 										
 										<!--select class="form-control" ng-model="currentlySelected.group">
 											<option ng-repeat="(g, group) in area.requirements" ng-selected="g == 0" ng-value="group._id" value="">{{group.name}}</option>
 										</select-->
 										
-										<a class="glyphicon glyphicon-trash btn" ng-click="editCourseList = editCourseList"></a>
+										<a class="glyphicon glyphicon-trash btn" ng-click="removeByIndex(item.courses, cIndex)"></a>
 									</form>
 								</div>
 							</li>
@@ -151,7 +165,7 @@
 						</div>
 						
 						<div>
-							<button class="btn btn-default">
+							<button class="btn btn-default" ng-click="addCourse(item)">
 								<span class="glyphicon glyphicon-plus"></span>
 								Add course
 							</button>
@@ -161,8 +175,12 @@
 			</div>
 		</div>
 
+		<div ng-show="currentlySelected.group.items.length == 0">
+			Add one or more items to this requirement.
+		</div>
+		
 		<div>
-			<button class="btn btn-default">
+			<button class="btn btn-default" ng-click="addItem(currentlySelected.group.items)">
 				<span class="glyphicon glyphicon-plus"></span>
 				Add item
 			</button>
@@ -171,11 +189,11 @@
 		<br>
 		<br>
 		<div class="form-group">
-			<button class="btn btn-success">
+			<button class="btn btn-success" ng-click="updateRequirement()">
 				<span class="glyphicon glyphicon-save"></span>
 				Save changes
 			</button>
-			<button class="btn btn-warning pull-right">
+			<button class="btn btn-warning pull-right" ng-click="cancelRequirement()">
 				<span class="glyphicon glyphicon-arrow-left"></span>
 				Cancel changes
 			</button>

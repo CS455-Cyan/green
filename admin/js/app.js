@@ -20,8 +20,7 @@
 				'ngResource',
 				'ngCookies',
 				'ngFileUpload',
-				'ui.bootstrap',
-				'chart.js'
+				'ui.bootstrap'
 			]
 		).run
 		(

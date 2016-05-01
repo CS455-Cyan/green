@@ -45,21 +45,50 @@ angular.module('AppAdmin')
 		};
 		
 		/*
+			Function: API.addGeneralRequirement
+			Description: Add a general requirement to an area
+			Input:
+				callback: function to execute on completion
+			Output:
+				callback is called on completion, with the result passed in as a parameter
+			Created: Tyler Yasaka 05/1/2016
+			Modified:
+		*/
+		this.addGeneralRequirement = function(area, requirementObject, callback) {
+			console.log('addGeneralRequirement')
+			callback(true);
+		};
+		
+		/*
 			Function: API.updateGeneralRequirement
 			Description: Update a general requirement
 			Input:
-				requirementId: id of requirement to update
 				requirementObject: new data
 				callback: function to execute once backend returns data
 			Output:
 			Created: Seth Putman 04/27/2016
 			Modified:
 		*/
-		this.updateGeneralRequirement = function(requirementId, requirementObject, callback) {
+		this.updateGeneralRequirement = function(area, requirementObject, callback) {
 			var data = {
 				success: true
 			}
 			callback(data.success);
+		};
+		
+		/*
+			Function: API.removeGeneralRequirement
+			Description: Remove a general requirement from an area
+			Input:
+				callback: function to execute on completion
+			Output:
+				callback is called on completion, with the result passed in as a parameter
+			Created: Tyler Yasaka 05/1/2016
+			Modified:
+		*/
+		this.removeGeneralRequirement = function(area, requirementId, callback) {
+			console.log('addGeneralRequirement')
+			callback(true);
 		};
 		
 		/*
