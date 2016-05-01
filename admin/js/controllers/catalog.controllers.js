@@ -57,7 +57,7 @@
                             if(success){
                                 $scope.refresh();
                             }else{
-                                //send a flag
+                                console.log("Category Update Failed");
                             }
                         });
                     };
@@ -67,7 +67,7 @@
                             if(success){
                                 $scope.refresh();
                             }else{
-                                //send a flag
+                                console.log("Department Update Failed")
                             }
                         });
                     };
