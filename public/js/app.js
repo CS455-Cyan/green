@@ -19,7 +19,7 @@
 				'ngRoute',
 				'ngResource',
 				'ui.bootstrap',
-                'ngSanitize'
+				'ngSanitize'
 			]
 		).run
 		(
@@ -28,18 +28,18 @@
 				'$rootScope',
 				'$location',
 				'$resource',
-				'API',
-				function($http, $rootScope, $location, $resource, API)
+				'CatalogAPI',
+				function($http, $rootScope, $location, $resource, CatalogAPI)
 				{
 					// This runs when this angular app is first loaded.
 					
 					$rootScope.categories = [];
 
-					API.listTextSections(function(textSections){
+					CatalogAPI.listTextSections(function(textSections){
 						$rootScope.textSections = textSections;
 					});
 					
-					API.listCategories(function(categories){
+					CatalogAPI.listCategories(function(categories){
 						$rootScope.categories = categories;
 					});
 					
@@ -147,6 +147,9 @@
 					}
 				}
 			]
+		).service(
+			'CatalogAPI',
+			CatalogAPIService
 		);
 
 	}

@@ -138,8 +138,10 @@
 			      }
 				}
 			]
+		).service(
+			'CatalogAPI',
+			CatalogAPIService
 		);
-
 	}
 )
 (
