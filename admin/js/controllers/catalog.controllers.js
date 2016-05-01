@@ -65,12 +65,6 @@
 							
 							CatalogAPI.listGeneralRequirements(function(areas) {
 								$scope.areas = areas;
-								if(areas.length) {
-									$scope.currentlySelected.area = areas[0]._id;
-									if(areas[0].requirements.length) {
-										$scope.currentlySelected.group = areas[0].requirements[0]._id;
-									}
-								}
 								//console.log(generalRequirements)
 							});
 							

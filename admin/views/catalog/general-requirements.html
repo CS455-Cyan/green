@@ -33,20 +33,29 @@
 
 <strong>Select an area:</strong>
 <div class="form-group">
-	<select class="form-control" ng-model="currentlySelected.area">
-		<option ng-repeat="(a, area) in areas" ng-selected="a == 0" ng-value="area._id" value="">Area {{area.area}}: {{area.name}}</option>
+	<select class="form-control" ng-model="currentlySelected.area" ng-options="area as ('Area ' + area.area + ': ' + area.name) for area in areas">
+		<option value=""></option>
 	</select>
 </div>
 
-<strong>Select a requirement:</strong>
-<div ng-repeat="area in areas" ng-show="area._id == currentlySelected.area">
-	
+<div ng-show="currentlySelected.area">
+
+	<strong>Select a requirement:</strong>
 	<div class="form-group">
-		<select class="form-control" ng-model="currentlySelected.group">
-			<option ng-repeat="(g, group) in area.requirements" ng-selected="g == 0" ng-value="group._id" value="">{{group.name}}</option>
+		<select class="form-control" ng-model="currentlySelected.group" ng-options="group as group.name for group in currentlySelected.area.requirements">
+			<option value=""></option>
 		</select>
 	</div>
-
+	
+	<div>
+		<button class="btn btn-default">
+			<span class="glyphicon glyphicon-plus"></span>
+			Add requirement
+		</button>
+	</div>
+	
+	<br>
+	
 	<!--CONTENT-->
 
 	<!--
@@ -56,12 +65,12 @@
 	-->
 
 	<!--"Requirements" accordion-->
-	<div ng-repeat="group in area.requirements" ng-show="group._id == currentlySelected.group">
+	<div ng-show="currentlySelected.group">
 
 		<h3>
-			{{group.name}}: {{group.credit}} hours 
+			{{currentlySelected.group.name}}: {{currentlySelected.group.credit}} hours 
 			<!--TITLE -- courtesy of Graem Cook-->
-			<button class="btn btn-danger pull-right" ng-click="removeGroup(group._id)">
+			<button class="btn btn-danger pull-right" ng-click="removeGroup(currentlySelected.group._id)">
 				<span class="glyphicon glyphicon-trash"></span>
 				Delete requirement
 			</button>
@@ -71,22 +80,22 @@
 		<!--AND/OR Toggle Buttons-->
 		<div class="form-group">
 			<div class="btn-group">
-					<label class="btn btn-default" ng-model="group.separator" btn-radio="'AND'">Require all items</label>
-					<label class="btn btn-default" ng-model="group.separator" btn-radio="'OR'">Require one item</label>
+					<label class="btn btn-default" ng-model="currentlySelected.group.separator" btn-radio="'AND'">Require all items</label>
+					<label class="btn btn-default" ng-model="currentlySelected.group.separator" btn-radio="'OR'">Require one item</label>
 			</div>
 		</div>
 
 		<p class="highlight">
 			Require
 			<strong>
-				<span ng-show="group.separator == 'OR'">one item</span>
-				<span ng-show="group.separator == 'AND'">all items</span>
+				<span ng-show="currentlySelected.group.separator == 'OR'">one item</span>
+				<span ng-show="currentlySelected.group.separator == 'AND'">all items</span>
 			</strong>
 			in the list below to satisfy this requirement:
 		</p>
 
 		<!--ITEM CONTENT - BUTTONS AND EDITS AND COURSE LIST AND STUFF-->
-		<div ng-repeat="(i, item) in group.items">
+		<div ng-repeat="(i, item) in currentlySelected.group.items">
 			<div class="panel panel-default" style="margin-top: 35px">
 				<div class="panel-heading">
 				<!--Course-list/write-in Buttons-->
@@ -121,11 +130,11 @@
 							<li ng-repeat="(cIndex, course) in item.courses">
 								<div class="unequalHours">
 									<form class="form-inline">
-										<select class="form-control" ng-model="item.courses[cIndex]" ng-options="selectedCourse as selectedCourse.title for selectedCourse in allCourses track by selectedCourse._id">
+										<select class="form-control" ng-model="item.courses[cIndex]" ng-options="selectedCourse as (selectedCourse.subject.abbreviation + ' ' + selectedCourse.number + ' ' + selectedCourse.title) for selectedCourse in allCourses track by selectedCourse._id">
 											<option></option>
 										</select>
 										
-										<!--input type="text" ng-model="item.courses[cIndex]" typeahead="selectedCourse as (selectedCourse.subject.abbreviation + ' ' + selectedCourse.number + ' ' + selectedCourse.title) for selectedCourse in allCourses | filter:$viewValue" class="form-control" typeahead-editable="false" size="50	"-->
+										<input type="text" ng-model="item.courses[cIndex]" placeholder="Search for a course" typeahead="selectedCourse as (selectedCourse.subject.abbreviation + ' ' + selectedCourse.number + ' ' + selectedCourse.title) for selectedCourse in allCourses | filter:$viewValue" class="form-control" typeahead-editable="false">
 										
 										<!--select class="form-control" ng-model="currentlySelected.group">
 											<option ng-repeat="(g, group) in area.requirements" ng-selected="g == 0" ng-value="group._id" value="">{{group.name}}</option>
