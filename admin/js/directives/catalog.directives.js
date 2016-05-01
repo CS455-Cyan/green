@@ -4,7 +4,6 @@ angular.module('AppAdmin')
 	function(CatalogAPI) {
 		function link(scope, element, attrs) {
 			
-			//scope.requirements = scope.requirementsArr;
 			console.log(scope.requirements)
 			scope.refresh = function() {
 				scope.currentlySelected.group = null;
