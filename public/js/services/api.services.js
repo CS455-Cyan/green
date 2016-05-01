@@ -807,7 +807,7 @@ angular.module('Catalog')
 			}
 		];
 		
-		var facultyAndStaff = "Dr. Roden... 'Nuff said."
+		var facultyAndStaff = "Dr. Roden... 'Nuff said. <h1>HIHIHI</h1>"
 		
 	}
 );

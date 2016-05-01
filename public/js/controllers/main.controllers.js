@@ -15,7 +15,8 @@ angular.module('Catalog')
 		'$scope',
 		'$rootScope',
 		'API',
-		function($scope, $rootScope, API)
+        '$sanitize',
+		function($scope, $rootScope, API, $sanitize)
 		{
 			$rootScope.breadcrumbs = [{text: 'About UNA Catalog'}];
 		}
@@ -28,7 +29,8 @@ angular.module('Catalog')
 		'$rootScope',
 		'$routeParams',
 		'API',
-		function($scope, $rootScope, $routeParams, API)
+        '$sanitize',
+		function($scope, $rootScope, $routeParams, API, $sanitize)
 		{
 			API.getTextSection($routeParams.section, function(textSection) {
 				$scope.textSection = textSection;
@@ -44,7 +46,8 @@ angular.module('Catalog')
 		'$rootScope',
 		'$routeParams',
 		'API',
-		function($scope, $rootScope, $routeParams, API)
+        '$sanitize',
+		function($scope, $rootScope, $routeParams, API, $sanitize)
 		{
 			$rootScope.breadcrumbs = [{text: 'General Education Requirements'}];
 			API.listGeneralRequirements(function(generalRequirements) {
@@ -60,7 +63,8 @@ angular.module('Catalog')
 		'$rootScope',
 		'$routeParams',
 		'API',
-		function($scope, $rootScope, $routeParams, API)
+        '$sanitize',
+		function($scope, $rootScope, $routeParams, API, $sanitize)
 		{
 			API.getCategory($routeParams.category, function(category) {
 				$rootScope.category = category;
@@ -76,7 +80,8 @@ angular.module('Catalog')
 		'$rootScope',
 		'$routeParams',
 		'API',
-		function($scope, $rootScope, $routeParams, API)
+        '$sanitize',
+		function($scope, $rootScope, $routeParams, API, $sanitize)
 		{
 			API.getDepartment($routeParams.category, $routeParams.department, function(category, department) {
 				$scope.category = category;
@@ -101,7 +106,8 @@ angular.module('Catalog')
 		'$rootScope',
 		'$routeParams',
 		'API',
-		function($scope, $rootScope, $routeParams, API)
+        '$sanitize',
+		function($scope, $rootScope, $routeParams, API, $sanitize)
 		{
 			API.getProgram(
 				$routeParams.category,
@@ -136,7 +142,8 @@ angular.module('Catalog')
 		'$rootScope',
 		'$routeParams',
 		'API',
-		function($scope, $rootScope, $routeParams, API)
+        '$sanitize',
+		function($scope, $rootScope, $routeParams, API, $sanitize)
 		{
 			$rootScope.breadcrumbs = [{text: 'Courses'}];
 			API.listSubjects(function(subjects) {
@@ -153,7 +160,8 @@ angular.module('Catalog')
 		'$location',
 		'$routeParams',
 		'API',
-		function($scope, $rootScope, $location, $routeParams, API)
+        '$sanitize',
+		function($scope, $rootScope, $location, $routeParams, API, $sanitize)
 		{
 			
 			/*
@@ -187,7 +195,8 @@ angular.module('Catalog')
 		'$rootScope',
 		'$routeParams',
 		'API',
-		function($scope, $rootScope, $routeParams, API)
+        '$sanitize',
+		function($scope, $rootScope, $routeParams, API, $sanitize)
 		{
 			API.getCourse($routeParams.course, function(course) {
 				$scope.course = course;
@@ -207,7 +216,8 @@ angular.module('Catalog')
 		'$rootScope',
 		'$routeParams',
 		'API',
-		function($scope, $rootScope, $routeParams, API)
+        '$sanitize',
+		function($scope, $rootScope, $routeParams, API, $sanitize)
 		{
 			$rootScope.breadcrumbs = [{text: 'Faculty and Staff'}];
 			API.getFacultyAndStaff(function(facultyAndStaff) {
