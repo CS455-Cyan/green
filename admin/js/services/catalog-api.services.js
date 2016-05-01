@@ -257,6 +257,26 @@ angular.module('AppAdmin')
 			callback(result.category, result.department, result.program);
 		};
 		
+        /*
+			Function: API.updateProgram
+			Description: Update a program by ID
+			Input:
+				categoryID: id of category program is in (String)
+				departmentID: id of department program is in (String)
+				programID: id of program to update (String)
+				program: data to update (object)
+				callback: function to execute once the department is changed
+			Output:
+				callback is called when department is changed, with a boolean flag passed in as a parameter
+			Created: Graem Cook 4/28/2016
+			Modified:
+				Tyler Yasaka 5/1/2016
+		*/
+		this.updateProgram = function(categoryID, departmentID, programID, program, callback) {
+			console.log("updateProgram")
+			callback(true);
+		};
+		
 		
 		/*
 			Function: API.listCourses
@@ -653,10 +673,12 @@ angular.module('AppAdmin')
 									{
 										"name": "Core Requirements",
 										"_id": "571339a3145ab8b471163da0",
+										separator: "AND",
 										"items": [
 											{
 												"separator": "OR",
 												"_id": "571339a3145ab8b471163da2",
+												isWriteIn: false,
 												"courses": [
 													{
 														"_id": "571339a2145ab8b471163d96",
@@ -700,6 +722,7 @@ angular.module('AppAdmin')
 											{
 												"separator": "AND",
 												"_id": "571339a3145ab8b471163da3",
+												isWriteIn: false,
 												"courses": [
 													{
 														"_id": "571339a2145ab8b471163d97",

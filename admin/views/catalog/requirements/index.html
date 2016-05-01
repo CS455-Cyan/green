@@ -6,7 +6,7 @@
 </div>
 
 <div>
-	<button class="btn btn-default" ng-click="addRequirement()">
+	<button class="btn btn-default" ng-click="newRequirement()">
 		<span class="glyphicon glyphicon-plus"></span>
 		Add requirement
 	</button>
@@ -25,19 +25,18 @@
 <!--"Requirements" accordion-->
 <div ng-show="currentlySelected.group">
 
-	<div class="form-group">
+	<br>
+	<div class="form-inline">
+		<label>Requirement name:</label>
+		<input ng-model="currentlySelected.group.name" class="form-control" placeholder="Enter a descriptive name for this requirement">
 		<button class="btn btn-danger pull-right" ng-click="callRemoveRequirement(requirements, currentlySelected.group._id)">
 			<span class="glyphicon glyphicon-trash"></span>
 			Delete requirement
 		</button>
-		<dic class="clearfix"></dic>
-	</div>
-	<div class="form-group">
-		<label>Requirement name:</label>
-		<input ng-model="currentlySelected.group.name" class="form-control" placeholder="Enter a descriptive name for this requirement">
 	</div>
 	<!--TITLE -- courtesy of Graem Cook-->
 	<div class="clearfix"></div>
+	<br>
 
 	<!--AND/OR Toggle Buttons-->
 	<div class="form-group">
@@ -61,17 +60,16 @@
 		<div class="panel panel-default" style="margin-top: 35px">
 			<div class="panel-heading">
 			<!--Course-list/write-in Buttons-->
-
 				<div class="form-group">
 					<strong>Item type:</strong>
-					<div class="btn-group-sm">
+					<div class="btn-group btn-group-sm">
 							<label class="btn btn-default" ng-model="item.isWriteIn" btn-radio="false">Course List</label>
 							<label class="btn btn-default" ng-model="item.isWriteIn" btn-radio="true">Write-in</label>
-							<button class="btn btn-sm btn-warning pull-right" ng-click="removeItem(currentlySelected.group.items, i)">
-								<span class="glyphicon glyphicon-trash"></span>
-								Delete item
-							</button>
 					</div>
+					<button class="btn btn-sm btn-warning pull-right" ng-click="removeItem(currentlySelected.group.items, i)">
+						<span class="glyphicon glyphicon-trash"></span>
+						Delete item
+					</button>
 				</div>
 			</div>
 			<div class="accessItems panel-body">
@@ -84,11 +82,13 @@
 
 				<div class="coursesDisplay" ng-show="item.isWriteIn == false">
 
-					<div class="btn-group-sm">
-						<label class="btn btn-default" ng-model="item.separator" btn-radio="'AND'">Require all courses</label>
-						<label class="btn btn-default" ng-model="item.separator" btn-radio="'OR'">Require one course</label>
+					<div>
+						<div class="btn-group btn-group-sm">
+							<label class="btn btn-default" ng-model="item.separator" btn-radio="'AND'">Require all courses</label>
+							<label class="btn btn-default" ng-model="item.separator" btn-radio="'OR'">Require one course</label>
+						</div>
 					</div>
-
+					
 					<span class="label label-warning">
 						Require
 						<strong>

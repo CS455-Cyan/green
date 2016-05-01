@@ -132,10 +132,26 @@
 					$scope.programID = $routeParams.programID;
 					$scope.departmentID = $routeParams.departmentID;
 					$scope.categoryID = $routeParams.categoryID;
+					
+					$scope.refresh = function() {
+						CatalogAPI.getProgram($scope.categoryID, $scope.departmentID, $scope.programID, function(category, department, program){
+							$scope.program = program;
+						});
+					}
 
-					CatalogAPI.getProgram($scope.categoryID, $scope.departmentID, $scope.programID, function(category, department, program){
-						$scope.program = program;
-					});
+					$scope.updateProgram = function(group, callback) {
+						CatalogAPI.updateProgram(
+							$scope.categoryID,
+							$scope.departmentID,
+							$scope.programID,
+							$scope.program,
+							function(success) {
+								callback(success);
+							}
+						);
+					}
+					
+					$scope.refresh();
 				}
 			]
 		).controller(
@@ -163,13 +179,14 @@
 							});
 						}
 						
-						//make a call to the database to update a requirement with given id
+						$scope.addRequirement = function(group, callback) {
+							CatalogAPI.addGeneralRequirement($scope.currentlySelected.area.area, group, function(success) {
+								callback(success);
+							});
+						}
+						
 						$scope.updateRequirement = function(group, callback) {
-							var action = CatalogAPI.updateGeneralRequirement;
-							if(group.isNew) {
-								action = CatalogAPI.addGeneralRequirement;
-							}
-							action($scope.currentlySelected.area.area, group, function(success) {
+							CatalogAPI.updateGeneralRequirement($scope.currentlySelected.area.area, group, function(success) {
 								callback(success);
 							});
 						}

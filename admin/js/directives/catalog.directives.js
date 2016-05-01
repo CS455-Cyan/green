@@ -4,14 +4,19 @@ angular.module('AppAdmin')
 	function(CatalogAPI) {
 		function link(scope, element, attrs) {
 			
-			scope.requirements = scope.requirementsArr;
+			//scope.requirements = scope.requirementsArr;
+			console.log(scope.requirements)
 			scope.refresh = function() {
 				scope.currentlySelected.group = null;
 				scope.refreshRequirements();
 			}
 			
 			scope.callUpdateRequirement = function(group) {
-				scope.updateRequirement(group, function(success) {
+				var action = scope.updateRequirement;
+				if(group.isNew) {
+					action = scope.addRequirement;
+				}
+				action(group, function(success) {
 					scope.refresh();
 					if(success) {
 						alert("Changes saved successfully")
@@ -38,7 +43,7 @@ angular.module('AppAdmin')
 				group: null
 			}
 														
-			scope.addRequirement = function() {
+			scope.newRequirement = function() {
 				var requirement = {
 					name: '',
 					separator: "AND",
@@ -123,6 +128,7 @@ angular.module('AppAdmin')
 			scope: {
 				refreshRequirements: '=',
 				requirements: '=',
+				addRequirement: '=',
 				removeRequirement: '=',
 				updateRequirement: '='
 			},
