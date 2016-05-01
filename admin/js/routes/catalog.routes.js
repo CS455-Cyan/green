@@ -28,6 +28,34 @@
 						}
 					).when
 					(
+						'/catalog/programs/categories',
+						{
+							templateUrl: 'views/catalog/programs/categories.html',
+							controller: 'Catalog-CategoriesCtrl'
+						}
+					).when
+					(
+						'/catalog/programs/departments/:categoryID/:departmentID',
+						{
+							templateUrl: 'views/catalog/programs/departments.html',
+							controller: 'Catalog-DepartmentsCtrl'
+						}
+					).when
+					(
+						'/catalog/programs/programs/:categoryID/:programID',
+						{
+							templateUrl: 'views/catalog/programs/programs.html',
+							controller: 'Catalog-ProgramsCtrl'
+						}
+					).when
+					(
+						'/catalog/programs/programs/:categoryID/:departmentID/:programID',
+						{
+							templateUrl: 'views/catalog/programs/programs.html',
+							controller: 'Catalog-ProgramsCtrl'
+						}
+					).when
+					(
 						'/catalog/general-requirements',
 						{
 							templateUrl: 'views/catalog/general-requirements.html',

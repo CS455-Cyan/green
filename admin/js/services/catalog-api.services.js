@@ -145,6 +145,23 @@ angular.module('AppAdmin')
 				}
 			}
 		};
+        
+        /*
+			Function: API.updateCategory
+			Description: Update a category by ID
+			Input:
+				id: id of category to fetch (String)
+                category: the specific category's object
+				callback: function to execute once the category is changed
+			Output:
+				callback is called when category is changed, with a boolean flag passed in as a parameter
+			Created: Graem Cook 4/27/2016
+			Modified:
+		*/
+		this.updateCategory = function(id, category, callback) {
+            console.log("updateCategory");
+            callback(true);
+		};
 		
 		/*
 			Function: API.getDepartment
@@ -175,6 +192,23 @@ angular.module('AppAdmin')
 				}
 			}
 			callback(result.category, result.department);
+		};
+        
+        /*
+			Function: API.updateDepartment
+			Description: Update a department by ID
+			Input:
+				id: id of department to fetch (String)
+                category: the specific department's object
+				callback: function to execute once the department is changed
+			Output:
+				callback is called when department is changed, with a boolean flag passed in as a parameter
+			Created: Graem Cook 4/28/2016
+			Modified:
+		*/
+		this.updateDepartment = function(categoryID, departmentID, department, callback) {
+            console.log("updateDepartment")
+			callback(true);
 		};
 		
 		/*
