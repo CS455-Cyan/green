@@ -470,6 +470,26 @@ var CatalogAPIService = function() {
 			}
 		);
 	};
+	
+	this.publishCatalog = function(payload, callback) {
+		postHTTP(
+			'/admin/catalog/publish',
+			payload,
+			function(res) {
+				callback(res.success);
+			}
+		);
+	};
+	
+	this.previewCatalog = function(payload, callback) {
+		postHTTP(
+			'/admin/catalog/preview',
+			payload,
+			function(res) {
+				callback(res.success);
+			}
+		);
+	};
 
 	var urlPrefix = ''; // easily change api url
 

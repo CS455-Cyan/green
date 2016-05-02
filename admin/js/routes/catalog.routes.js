@@ -112,10 +112,10 @@
 						}
 					).when
 					(
-						'/catalog/admins/:id',
+						'/catalog/publish',
 						{
-							templateUrl: 'views/catalog/admins/edit.html',
-							controller: 'Catalog-AdminEditCtrl'
+							templateUrl: 'views/catalog/publish.html',
+							controller: 'Catalog-PublishCtrl'
 						}
 					);
 				}

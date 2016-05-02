@@ -641,6 +641,53 @@
 					$scope.refresh();
 				}
 			]
+		).controller
+		(
+			'Catalog-PublishCtrl',
+			[
+				'$scope',
+				'$rootScope',
+				'$location',
+				'$sanitize',
+				'CatalogAPI',
+				function($scope, $rootScope, $location, $sanitize, CatalogAPI)
+				{
+					$scope.selectedYear = null;
+					$scope.showPreview = false;
+					var currentYear = new Date().getFullYear();
+					$scope.years = [];
+					for(var i=0; i<3; i++) {
+						$scope.years.push(currentYear + i);
+					}
+
+					$scope.publish = function() {
+						if($scope.selectedYear) {
+							var year = $scope.selectedYear + '-' + ($scope.selectedYear + 1);
+							var message = "Publish the catalog for " + year + "?";
+							var payload = {beginYear: year, endYear: year+1};
+							if(confirm(message)) {
+								CatalogAPI.publishCatalog(payload, function(success) {
+									var message = "Catalog published successfully.";
+									if(!success) {
+										message = "There was an error publishing the catalog.";
+									}
+									$scope.$apply();
+								});
+							}
+						}
+						else {
+							alert("Please select a year.");
+						}
+					}
+					
+					$scope.preview = function() {
+						CatalogAPI.previewCatalog(function(success) {
+							$scope.showPreview = true;
+							$scope.$apply();
+						});
+					}
+				}
+			]
 		);
 	}
 )
