@@ -89,6 +89,13 @@
 							templateUrl: 'views/catalog/faculty-and-staff.html',
 							controller: 'Catalog-FacultyAndStaffCtrl'
 						}
+					).when
+					(
+						'/catalog/change-requests',
+						{
+							templateUrl: 'views/catalog/change-requests/index.html',
+							controller: 'Catalog-ChangeRequestsCtrl'
+						}
 					);
 				}
 			]
