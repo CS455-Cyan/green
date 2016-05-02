@@ -103,6 +103,20 @@
 							templateUrl: 'views/catalog/account.html',
 							controller: 'Catalog-AccountCtrl'
 						}
+					).when
+					(
+						'/catalog/admins',
+						{
+							templateUrl: 'views/catalog/admins/list.html',
+							controller: 'Catalog-AdminListCtrl'
+						}
+					).when
+					(
+						'/catalog/publish',
+						{
+							templateUrl: 'views/catalog/publish.html',
+							controller: 'Catalog-PublishCtrl'
+						}
 					);
 				}
 			]

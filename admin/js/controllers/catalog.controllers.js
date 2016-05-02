@@ -546,43 +546,167 @@
                         }
 				}
 			]
-            ).controller(
-                'Catalog-AccountCtrl', [
-				'$scope'
-				, '$rootScope'
-				, '$location'
-				, '$sanitize'
-				, 'CatalogAPI'
-				, function ($scope, $rootScope, $location, $sanitize, CatalogAPI)
-                    {
-                        $scope.password = $scope.confirmPassword = '';
-
-                        $scope.updateAccount = function () {
-                            if ($rootScope.verifyPassword($scope.password, $scope.confirmPassword)) {
-                                var payload = {
-                                    password: $scope.password
-                                };
-                                CatalogAPI.updateAdmin(payload, function (success) {
-                                    var message = "";
-                                    if (success) {
-                                        message = "Account updated successfully.";
-                                    } else {
-                                        message = "There was an error updating your account.";
-                                    }
-                                    alert(message);
-                                    $scope.password = $scope.confirmPassword = '';
-                                    $scope.$apply();
-                                });
-                            } else {
-                                alert('Entered password does not meet requirements or passwords do not match. Please try again.');
-                            }
-                        }
-
+		).controller
+		(
+			'Catalog-AccountCtrl',
+			[
+				'$scope',
+				'$rootScope',
+				'$location',
+				'$sanitize',
+				'CatalogAPI',
+				function($scope, $rootScope, $location, $sanitize, CatalogAPI)
+				{
+					$scope.password = $scope.confirmPassword = '';
+				
+					$scope.updateAccount = function() {
+						if($rootScope.verifyPassword($scope.password, $scope.confirmPassword)) {
+							var payload = {password: $scope.password};
+							CatalogAPI.updateAccount(payload, function(success) {
+								var message = "";
+								if(success) {
+									message = "Account updated successfully.";
+								} else {
+									message = "There was an error updating your account.";
+								}
+								alert(message);
+								$scope.password = $scope.confirmPassword = '';
+								$scope.$apply();
+							});
+						} else {
+							alert('Entered password does not meet requirements or passwords do not match. Please try again.');
+						}
+					}
+				
 				}
 			]
-            );
+		).controller
+		(
+			'Catalog-AdminListCtrl',
+			[
+				'$scope',
+				'$rootScope',
+				'$location',
+				'$sanitize',
+				'CatalogAPI',
+				function($scope, $rootScope, $location, $sanitize, CatalogAPI)
+				{
+					$scope.selected = null;
+					$scope.password = $scope.confirmPassword = '';
+					$scope.newUsername = '';
+					
+					$scope.refresh = function() {
+						CatalogAPI.listAdmins(function(admins) {
+							$scope.secondaryAdmins = admins;
+							$scope.$apply();
+						});
+					}
+					
+					$scope.select = function(admin) {
+						$scope.selected = admin;
+					}
+					
+					$scope.deselect = function() {
+						$scope.selected = null;
+					}
+					
+					$scope.newAdmin = function() {
+						$scope.selected = {};
+					}
+					
+					$scope.removeAdmin = function(id) {
+						if(confirm("Delete this admin?")) {
+							CatalogAPI.deleteAdmin(id, function(success) {
+								if(success) {
+										alert("Admin deleted successfully.")
+								} else {
+										alert("There was an error.")
+								}
+								$scope.refresh();
+							});
+						}
+					}
+				
+					$scope.updateAdmin = function() {
+						if($rootScope.verifyPassword($scope.password, $scope.confirmPassword)) {
+							var payload = {password: $scope.password};
+							
+							var callback = function(success) {
+								var message = "";
+								if(success) {
+									alert("Changes saved successfully.");
+									$location.url('/catalog/admins')
+								} else {
+									alert("There was an error saving your changes.");
+									$scope.password = $scope.confirmPassword = '';
+								}
+								$scope.deselect();
+								$scope.refresh();
+							}
+							
+							if($scope.selected._id) {
+								CatalogAPI.updateAdmin($scope.selected._id, payload, callback);
+							} else {
+								payload.username = $scope.newUsername;
+								CatalogAPI.addAdmin(payload, callback);
+							}
+						} else {
+							alert('Entered password does not meet requirements or passwords do not match. Please try again.');
+						}
+					}
+					
+					$scope.refresh();
+				}
+			]
+		).controller
+		(
+			'Catalog-PublishCtrl',
+			[
+				'$scope',
+				'$rootScope',
+				'$location',
+				'$sanitize',
+				'CatalogAPI',
+				function($scope, $rootScope, $location, $sanitize, CatalogAPI)
+				{
+					$scope.selectedYear = null;
+					$scope.showPreview = false;
+					var currentYear = new Date().getFullYear();
+					$scope.years = [];
+					for(var i=0; i<3; i++) {
+						$scope.years.push(currentYear + i);
+					}
 
-    }
+					$scope.publish = function() {
+						if($scope.selectedYear) {
+							var year = $scope.selectedYear + '-' + ($scope.selectedYear + 1);
+							var message = "Publish the catalog for " + year + "?";
+							var payload = {beginYear: year, endYear: year+1};
+							if(confirm(message)) {
+								CatalogAPI.publishCatalog(payload, function(success) {
+									var message = "Catalog published successfully.";
+									if(!success) {
+										message = "There was an error publishing the catalog.";
+									}
+									$scope.$apply();
+								});
+							}
+						}
+						else {
+							alert("Please select a year.");
+						}
+					}
+					
+					$scope.preview = function() {
+						CatalogAPI.previewCatalog(function(success) {
+							$scope.showPreview = true;
+							$scope.$apply();
+						});
+					}
+				}
+			]
+		);
+	}
 )
 (
     angular
