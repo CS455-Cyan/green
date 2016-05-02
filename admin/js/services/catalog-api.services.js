@@ -530,6 +530,7 @@ var CatalogAPIService = function() {
 		xmlHttp.setRequestHeader("Content-type", "application/json");
 		xmlHttp.send(JSON.stringify(payload));
 	}
+    this.putHTTP = putHTTP;
 
 	var deleteHTTP = function(theUrl, callback) {
 		theUrl = urlPrefix + theUrl;

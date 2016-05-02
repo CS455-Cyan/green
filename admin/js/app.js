@@ -21,7 +21,8 @@
 				'ngCookies',
 				'ngFileUpload',
 				'ui.bootstrap',
-				'ngSanitize'
+				'ngSanitize',
+                'ui.sortable'
 			]
 		).run
 		(
@@ -159,3 +160,5 @@
 (
 	angular
 );
+
+
