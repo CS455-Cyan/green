@@ -28,6 +28,100 @@
 			]
 		).controller
 		(
+			'Catalog-TextSectionListCtrl',
+			[
+				'$scope',
+				'$rootScope',
+				'$location',
+				'$sanitize',
+				'CatalogAPI',
+				function($scope, $rootScope, $location, $sanitize, CatalogAPI)
+				{
+					$scope.refresh = function() {
+						CatalogAPI.listTextSections(function(sections) {
+							$scope.textSections = sections;
+							$scope.$apply();
+						});
+					}
+					
+					$scope.newTextSection = function() {
+						$location.path('/catalog/text-sections/new')
+					}
+					
+					$scope.removeTextSection = function(id) {
+						CatalogAPI.deleteTextSection(id, function(success) {
+							if(success) {
+									alert("Section deleted successfully.")
+							} else {
+									alert("There was an error.")
+							}
+							$scope.refresh();
+						});
+					}
+					
+					$scope.refresh();
+				}
+			]
+		).controller
+		(
+			'Catalog-TextSectionEditCtrl',
+			[
+				'$scope',
+				'$rootScope',
+				'$location',
+				'$sanitize',
+				'CatalogAPI',
+				'$routeParams',
+				function($scope, $rootScope, $location, $sanitize, CatalogAPI, $routeParams)
+				{
+					CKEDITOR.replace('userEditor');
+					
+					// Detect creation of new section and mark it as new
+					if($routeParams.id == "new") {
+						$scope.textSection = {
+							isNew: true
+						}
+					}
+					//otherwise retrieve data
+					else {
+						CatalogAPI.getTextSection($routeParams.id, function(data) {
+							$scope.textSection = data;
+							CKEDITOR.instances.userEditor.setData(data.content);
+							$scope.$apply();
+						});
+					}
+					
+					$scope.updateTextSection = function(){
+						// execute after response from server
+						var callback = function(data){
+							
+							if(data) {
+									alert("Changes were saved successfully.")
+							} else {
+									alert("There was an error saving your changes.")
+							}
+							$scope.$apply(function(){
+								$location.url('/catalog/text-sections');
+							});
+						}
+						
+						// data to send
+						var payload = {
+							title: $scope.textSection.title,
+							content: CKEDITOR.instances.userEditor.getData()
+						};
+						
+						// create if new, update otherwise
+						if($scope.textSection.isNew) {
+							CatalogAPI.addTextSection(payload, callback);
+						} else {
+							CatalogAPI.updateTextSection($scope.textSection._id, payload, callback);
+						}
+					}
+				}
+			]
+		).controller
+		(
 			'Catalog-CategoriesCtrl',
 			[
 				'$scope',
@@ -46,10 +140,10 @@
 					$scope.discard = false;
 					var callback = function(categories){
 						$scope.categories = categories;
+						$scope.$apply();
 					};
 					CatalogAPI.listCategories(callback);
 					$scope.refresh = function(){
-							console.log("refresh")
 						 CatalogAPI.listCategories(callback);
 					};
 					$scope.pushCategoryChange = function(category){
@@ -60,16 +154,18 @@
 									}else{
 											//send a flag
 									}
+								$scope.$apply();
 							});
 					};
 					$scope.pushDepartmentChange = function(category, department){
 							console.log("pushDepartmentChange");
 							CatalogAPI.updateDepartment(category.id, department._id, department, function(success){
-									if(success){
-											$scope.refresh();
-									}else{
-											//send a flag
-									}
+								if(success){
+										$scope.refresh();
+								}else{
+										//send a flag
+								}
+								$scope.$apply();
 							});
 					};
 				}
@@ -97,8 +193,9 @@
 					$scope.discard = false;
 
 					CatalogAPI.getDepartment($scope.categoryID, $scope.departmentID, function(category, department){
-							$scope.department = department;
-							$scope.category = category;
+						$scope.department = department;
+						$scope.category = category;
+						$scope.$apply();
 					});
 					$scope.pushDepartmentChange = function(category, department){
 					console.log("pushDepartmentChange");
@@ -108,14 +205,15 @@
 						}else{
 							//send a flag
 						}
+						$scope.$apply();
 					});
 					};
 					$scope.refresh = function(){
-						console.log("refresh")
 						CatalogAPI.getDepartment($scope.categoryID, $scope.departmentID, function(category, department){
 							$scope.department = department;
 							$scope.category = category;
 						});
+						$scope.$apply();
 					};
 				}
 			]
@@ -139,6 +237,7 @@
 					$scope.refresh = function() {
 						CatalogAPI.getProgram($scope.categoryID, $scope.departmentID, $scope.programID, function(category, department, program){
 							$scope.program = program;
+							$scope.$apply();
 						});
 					}
 
@@ -150,6 +249,7 @@
 							$scope.program,
 							function(success) {
 								callback(success);
+								$scope.$apply();
 							}
 						);
 					}
@@ -174,24 +274,28 @@
 						$scope.refreshRequirements = function() {
 							CatalogAPI.listGeneralRequirements(function(areas) {
 								$scope.areas = areas;
+								$scope.$apply();
 							});
 						}
 						
 						$scope.removeRequirement = function(requirements, id, callback) {			
 							CatalogAPI.removeGeneralRequirement($scope.currentlySelected.area.area, id, function(success) {
 								callback(success);
+								$scope.$apply();
 							});
 						}
 						
 						$scope.addRequirement = function(group, callback) {
 							CatalogAPI.addGeneralRequirement($scope.currentlySelected.area.area, group, function(success) {
 								callback(success);
+								$scope.$apply();
 							});
 						}
 						
 						$scope.updateRequirement = function(group, callback) {
 							CatalogAPI.updateGeneralRequirement($scope.currentlySelected.area.area, group, function(success) {
 								callback(success);
+								$scope.$apply();
 							});
 						}
 						
@@ -210,24 +314,26 @@
 				{
 					CKEDITOR.replace('userEditor');
 					var facultyAndStaffCallback = function(data) {
-							CKEDITOR.instances.userEditor.setData(data);
+						CKEDITOR.instances.userEditor.setData(data);
+						$scope.$apply();
 					}
-					$scope.facultyAndStaff = CatalogAPI.getFacultyAndStaff(facultyAndStaffCallback)
-					//var data = CKEDITOR.instances.userEditor.getData();
+					CatalogAPI.getFacultyAndStaff(facultyAndStaffCallback);
+					
 					$scope.updateFacultyAndStaff = function(){
 						var callback = function(data){
-								if(data) {
-										alert("Changes were saved successfully.")
-								} else {
-										alert("There was an error saving your changes.")
-								}
+							if(data) {
+									alert("Changes were saved successfully.")
+							} else {
+									alert("There was an error saving your changes.")
+							}
+							$scope.$apply();
 						}
-						
 						var payload = {
 							content: CKEDITOR.instances.userEditor.getData()
 						};
 						CatalogAPI.updateFacultyAndStaff(payload, callback);
 					}
+					
 				}
 			]
 		);

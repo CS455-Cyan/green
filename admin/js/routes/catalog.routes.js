@@ -28,6 +28,20 @@
 						}
 					).when
 					(
+						'/catalog/text-sections',
+						{
+							templateUrl: 'views/catalog/text-sections/list.html',
+							controller: 'Catalog-TextSectionListCtrl'
+						}
+					).when
+					(
+						'/catalog/text-sections/:id',
+						{
+							templateUrl: 'views/catalog/text-sections/edit.html',
+							controller: 'Catalog-TextSectionEditCtrl'
+						}
+					).when
+					(
 						'/catalog/programs/categories',
 						{
 							templateUrl: 'views/catalog/programs/categories.html',

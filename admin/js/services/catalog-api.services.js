@@ -123,6 +123,37 @@ var CatalogAPIService = function() {
 			callback(res.data);
 		});
 	};
+	
+	this.addTextSection = function(payload, callback) {
+		postHTTP(
+			'/admin/catalog/textSections',
+			payload,
+			function(res) {
+				callback(res.success);
+			}
+		);
+	};
+	
+	this.updateTextSection = function(id, payload, callback) {
+		putHTTP(
+			'/admin/catalog/textSections/' +
+			id,
+			payload,
+			function(res) {
+				callback(res.success);
+			}
+		);
+	};
+	
+	this.deleteTextSection = function(id, callback) {
+		deleteHTTP(
+			'/admin/catalog/textSections/' +
+			id,
+			function(res) {
+				callback(res.success);
+			}
+		);
+	};
 
 	/*
 		Function: API.listCategories
@@ -172,7 +203,7 @@ var CatalogAPIService = function() {
 	this.updateCategory = function(id, category, callback) {
 		putHTTP(
 			'/admin/catalog/programs/categories/' +
-			id +
+			id,
 			category,
 			function(res) {
 				callback(res.success);
