@@ -77,6 +77,13 @@
 						}
 					).when
 					(
+						'/catalog/courses',
+						{
+							templateUrl: 'views/catalog/courses.html',
+							controller: 'Catalog-CoursesCtrl'
+						}
+					).when
+					(
 						'/catalog/faculty-and-staff',
 						{
 							templateUrl: 'views/catalog/faculty-and-staff.html',
