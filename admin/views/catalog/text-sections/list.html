@@ -1,15 +1,23 @@
 <h1>Edit Custom Text Sections</h1>
 
-<ul class="list-group">
-	<li class="list-group-item" ng-repeat="section in textSections">
-		<a ng-href="#/catalog/text-sections/{{section._id}}">{{section.title}}</a>
-		<button class="btn btn-danger pull-right" ng-click="removeTextSection(section._id)">
+
+
+<ul ui-sortable="sortableOptions" ng-model="list" class="list">
+       
+                <li ng-repeat="item in list" class="list-group-item">
+                   <a ng-href="#/catalog/text-sections/{{item.value}}"> {{item.text}}</a>
+                    		<button class="btn btn-danger pull-right" ng-click="removeTextSection(item.value)">
 			<span class="glyphicon glyphicon-trash"></span>
 		</button>
-	</li>
+                </li>
 </ul>
+
+
+
 
 <button class="btn btn-default" ng-click="newTextSection()">
 	<span class="glyphicon glyphicon-plus"></span>
 	Add custom text section
 </button>
+    
+    
