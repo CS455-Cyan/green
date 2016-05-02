@@ -42,33 +42,14 @@
 
 					$scope.error = '';
 					$scope.loginForm = {};
-
-					//delete this when we integrate with the backend
-					// start delete
-					$scope.login = function() {
-						$location.path('/');
-						$rootScope.apps = [
-							{
-								"id": "catalog",
-								"name": "Catalog",
-								"url": "/catalog"
-							},
-							{
-								"id": "catalogRequest",
-								"name": "Curriculum Change Request",
-								"url": "/curriculum-change-request"
-							}
-						];
-					}
-					// end delete
 					
 					// Uncomment this code when we integrate with the backend
-					/*$scope.login =
+					$scope.login =
 						function()
 						{
 		      		$http.post
 		      		(
-		      			'/apps/api/admin/login',
+		      			'/admin/login',
 		      			$scope.loginForm
 		      		).success
 		      		(
@@ -93,7 +74,7 @@
 		              console.log('Error: ' + data);
 		          	}
 		          );
-						};*/
+						};
 				}
 			]
 		);

@@ -26,8 +26,63 @@
 							templateUrl: 'views/catalog/index.html',
 							controller: 'Catalog-HomeCtrl'
 						}
+					).when
+					(
+						'/catalog/text-sections',
+						{
+							templateUrl: 'views/catalog/text-sections/list.html',
+							controller: 'Catalog-TextSectionListCtrl'
+						}
+					).when
+					(
+						'/catalog/text-sections/:id',
+						{
+							templateUrl: 'views/catalog/text-sections/edit.html',
+							controller: 'Catalog-TextSectionEditCtrl'
+						}
+					).when
+					(
+						'/catalog/programs/categories',
+						{
+							templateUrl: 'views/catalog/programs/categories.html',
+							controller: 'Catalog-CategoriesCtrl'
+						}
+					).when
+					(
+						'/catalog/programs/departments/:categoryID/:departmentID',
+						{
+							templateUrl: 'views/catalog/programs/departments.html',
+							controller: 'Catalog-DepartmentsCtrl'
+						}
+					).when
+					(
+						'/catalog/programs/programs/:categoryID/:programID',
+						{
+							templateUrl: 'views/catalog/programs/programs.html',
+							controller: 'Catalog-ProgramsCtrl'
+						}
+					).when
+					(
+						'/catalog/programs/programs/:categoryID/:departmentID/:programID',
+						{
+							templateUrl: 'views/catalog/programs/programs.html',
+							controller: 'Catalog-ProgramsCtrl'
+						}
+					).when
+					(
+						'/catalog/general-requirements',
+						{
+							templateUrl: 'views/catalog/general-requirements.html',
+							controller: 'Catalog-General-RequirementsCtrl'
+						}
+					).when
+					(
+						'/catalog/faculty-and-staff',
+						{
+							templateUrl: 'views/catalog/faculty-and-staff.html',
+							controller: 'Catalog-FacultyAndStaffCtrl'
+						}
 					);
-
 				}
 			]
 		);

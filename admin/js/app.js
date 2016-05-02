@@ -21,7 +21,7 @@
 				'ngCookies',
 				'ngFileUpload',
 				'ui.bootstrap',
-				'chart.js'
+				'ngSanitize'
 			]
 		).run
 		(
@@ -32,8 +32,8 @@
 				'$resource',
 				function($http, $rootScope, $location, $resource)
 				{
-					var logoutAPI = $resource('/apps/api/admin/logout');
-					var sessionAPI = $resource('/apps/api/admin/session');
+					var logoutAPI = $resource('/admin/logout');
+					var sessionAPI = $resource('/admin/session');
 
 					$rootScope.apps = [];
 
@@ -54,25 +54,8 @@
 					$rootScope.checkLogin =
 						function()
 						{
-							//delete this when we integrate with the backend
-							// start delete
-							$rootScope.isLoggedIn = true;
-							$rootScope.apps = [
-								{
-									"id": "catalog",
-									"name": "Catalog",
-									"url": "/catalog"
-								},
-								{
-									"id": "curriculumChangeRequest",
-									"name": "Curriculum Change Request",
-									"url": "/curriculum-change-request"
-								}
-							];
-							// end delete
 						
-							// Uncomment this code when we integrate with the backend
-							/*var apiSession = sessionAPI.get
+							var apiSession = sessionAPI.get
 							(
 								{},
 								function()
@@ -87,8 +70,22 @@
 										$rootScope.apps = apiSession.apps;
 									}
 								}
-							);*/
+							);
 						}
+					
+					/*
+						Function: $rootScope.isActivePath
+						Description: Tells whether or not the given path is active
+						Input:
+							path: path to check (String)
+						Output:
+							whether path is active (Boolean)
+						Created: Tyler Yasaka 04/17/2016
+						Modified:
+					*/
+					$rootScope.isActivePath = function(path) {
+						return ($location.path().substr(0, path.length) === path);
+					}
 
 					$rootScope.$on('$routeChangeSuccess',
 						function ()
@@ -141,8 +138,10 @@
 			      }
 				}
 			]
+		).service(
+			'CatalogAPI',
+			CatalogAPIService
 		);
-
 	}
 )
 (
