@@ -21,7 +21,8 @@
 				'$rootScope',
 				'$location',
 				'$sanitize',
-				function($scope, $rootScope, $location, $sanitize)
+				'CatalogAPI',
+				function($scope, $rootScope, $location, $sanitize, CatalogAPI)
 				{
 					//
 				}
@@ -526,6 +527,40 @@
 								, "description": $scope.newTodo.description
 						};
 					}
+				}
+			]
+		).controller
+		(
+			'Catalog-AccountCtrl',
+			[
+				'$scope',
+				'$rootScope',
+				'$location',
+				'$sanitize',
+				'CatalogAPI',
+				function($scope, $rootScope, $location, $sanitize, CatalogAPI)
+				{
+					$scope.password = $scope.confirmPassword = '';
+				
+					$scope.updateAccount = function() {
+						if($rootScope.verifyPassword($scope.password, $scope.confirmPassword)) {
+							var payload = {password: $scope.password};
+							CatalogAPI.updateAdmin(payload, function(success) {
+								var message = "";
+								if(success) {
+									message = "Account updated successfully.";
+								} else {
+									message = "There was an error updating your account.";
+								}
+								alert(message);
+								$scope.password = $scope.confirmPassword = '';
+								$scope.$apply();
+							});
+						} else {
+							alert('Entered password does not meet requirements or passwords do not match. Please try again.');
+						}
+					}
+				
 				}
 			]
 		);

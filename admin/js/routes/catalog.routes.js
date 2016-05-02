@@ -96,6 +96,13 @@
 							templateUrl: 'views/catalog/change-requests/index.html',
 							controller: 'Catalog-ChangeRequestsCtrl'
 						}
+					).when
+					(
+						'/catalog/account',
+						{
+							templateUrl: 'views/catalog/account.html',
+							controller: 'Catalog-AccountCtrl'
+						}
 					);
 				}
 			]

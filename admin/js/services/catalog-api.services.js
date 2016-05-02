@@ -425,6 +425,16 @@ var CatalogAPIService = function() {
 			}
 		);
 	};
+	
+	this.updateAdmin = function(payload, callback){
+		putHTTP(
+			'/admin/password',
+			payload,
+			function(res) {
+				callback(res.success);
+			}
+		);
+	};
 
 	var urlPrefix = ''; // easily change api url
 

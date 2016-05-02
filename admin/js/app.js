@@ -36,6 +36,16 @@
 					var sessionAPI = $resource('/admin/session');
 
 					$rootScope.apps = [];
+					
+					$rootScope.verifyPassword = function(password, confirmPassword) {
+						// Edit to return false on invalid password or when
+						// password and confirmPassword don't match.
+						// - 8-12 characters
+						// - at least one uppercase
+						// - at least one lowercase
+						// - no special characters
+						return true;
+					}
 
 					$rootScope.logout =
 						function()
@@ -68,6 +78,8 @@
 									else{
 										$rootScope.isLoggedIn = true;
 										$rootScope.apps = apiSession.apps;
+										$rootScope.username = apiSession.username;
+										$rootScope._id = apiSession._id;
 									}
 								}
 							);

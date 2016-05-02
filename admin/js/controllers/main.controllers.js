@@ -59,6 +59,8 @@
 		          		{
 		          			$location.path('/');
 		          			$rootScope.apps = data.apps;
+										$rootScope.username = data.username;
+										$rootScope._id = data._id;
 		        			}
 		            	else
 		            	{
