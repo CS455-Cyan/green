@@ -545,7 +545,7 @@
 					$scope.updateAccount = function() {
 						if($rootScope.verifyPassword($scope.password, $scope.confirmPassword)) {
 							var payload = {password: $scope.password};
-							CatalogAPI.updateAdmin(payload, function(success) {
+							CatalogAPI.updateAccount(payload, function(success) {
 								var message = "";
 								if(success) {
 									message = "Account updated successfully.";
@@ -563,8 +563,85 @@
 				
 				}
 			]
+		).controller
+		(
+			'Catalog-AdminListCtrl',
+			[
+				'$scope',
+				'$rootScope',
+				'$location',
+				'$sanitize',
+				'CatalogAPI',
+				function($scope, $rootScope, $location, $sanitize, CatalogAPI)
+				{
+					$scope.selected = null;
+					$scope.password = $scope.confirmPassword = '';
+					$scope.newUsername = '';
+					
+					$scope.refresh = function() {
+						CatalogAPI.listAdmins(function(admins) {
+							$scope.secondaryAdmins = admins;
+							$scope.$apply();
+						});
+					}
+					
+					$scope.select = function(admin) {
+						$scope.selected = admin;
+					}
+					
+					$scope.deselect = function() {
+						$scope.selected = null;
+					}
+					
+					$scope.newAdmin = function() {
+						$scope.selected = {};
+					}
+					
+					$scope.removeAdmin = function(id) {
+						if(confirm("Delete this admin?")) {
+							CatalogAPI.deleteAdmin(id, function(success) {
+								if(success) {
+										alert("Admin deleted successfully.")
+								} else {
+										alert("There was an error.")
+								}
+								$scope.refresh();
+							});
+						}
+					}
+				
+					$scope.updateAdmin = function() {
+						if($rootScope.verifyPassword($scope.password, $scope.confirmPassword)) {
+							var payload = {password: $scope.password};
+							
+							var callback = function(success) {
+								var message = "";
+								if(success) {
+									alert("Changes saved successfully.");
+									$location.url('/catalog/admins')
+								} else {
+									alert("There was an error saving your changes.");
+									$scope.password = $scope.confirmPassword = '';
+								}
+								$scope.deselect();
+								$scope.refresh();
+							}
+							
+							if($scope.selected._id) {
+								CatalogAPI.updateAdmin($scope.selected._id, payload, callback);
+							} else {
+								payload.username = $scope.newUsername;
+								CatalogAPI.addAdmin(payload, callback);
+							}
+						} else {
+							alert('Entered password does not meet requirements or passwords do not match. Please try again.');
+						}
+					}
+					
+					$scope.refresh();
+				}
+			]
 		);
-		
 	}
 )
 (

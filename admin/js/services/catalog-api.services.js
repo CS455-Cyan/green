@@ -426,10 +426,45 @@ var CatalogAPIService = function() {
 		);
 	};
 	
-	this.updateAdmin = function(payload, callback){
+	this.updateAccount = function(payload, callback){
 		putHTTP(
 			'/admin/password',
 			payload,
+			function(res) {
+				callback(res.success);
+			}
+		);
+	};
+	
+	this.listAdmins = function(callback) {
+		getHTTP('/admin/admins', function(res) {
+			callback(res.data);
+		});
+	};
+	
+	this.addAdmin = function(payload, callback) {
+		postHTTP(
+			'/admin/admins',
+			payload,
+			function(res) {
+				callback(res.success);
+			}
+		);
+	};
+	
+	this.updateAdmin = function(id, payload, callback){
+		putHTTP(
+			'/admin/password/' + id,
+			payload,
+			function(res) {
+				callback(res.success);
+			}
+		);
+	};
+	
+	this.deleteAdmin = function(id, callback) {
+		deleteHTTP(
+			'/admin/admins/' + id,
 			function(res) {
 				callback(res.success);
 			}
