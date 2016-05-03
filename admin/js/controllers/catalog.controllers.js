@@ -43,7 +43,6 @@
                                         , 'value': {"_id": $scope.textSections[section]._id}
                                     });
                                 }
-                                console.log(tmpList);
                                 $scope.$apply();
                             });
                         }
@@ -110,8 +109,9 @@
                         else {
                             CatalogAPI.getTextSection($routeParams.id, function (data) {
                                 $scope.textSection = data;
-                                CKEDITOR.instances.userEditor.setData(data.content);
-                                $scope.$apply();
+																CKEDITOR.instances.userEditor.setData(data.content, function() {
+																	$scope.$apply();
+																});
                             });
                         }
 
@@ -367,8 +367,9 @@
                     {
                         CKEDITOR.replace('userEditor');
                         var facultyAndStaffCallback = function (data) {
-                            CKEDITOR.instances.userEditor.setData(data);
-                            $scope.$apply();
+                            CKEDITOR.instances.userEditor.setData(data, function() {
+															$scope.$apply();
+														});
                         }
                         CatalogAPI.getFacultyAndStaff(facultyAndStaffCallback);
 
