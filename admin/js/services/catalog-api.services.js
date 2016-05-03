@@ -506,6 +506,7 @@ var CatalogAPIService = function() {
 		xmlHttp.open("GET", theUrl, true); // true for asynchronous 
 		xmlHttp.send(null);
 	}
+    this.getHTTP = getHTTP;
 
 	var postHTTP = function(theUrl, payload, callback) {
 		theUrl += urlPrefix;
@@ -521,6 +522,7 @@ var CatalogAPIService = function() {
 		xmlHttp.setRequestHeader("Content-type", "application/json");
 		xmlHttp.send(JSON.stringify(payload));
 	}
+    this.postHTTP = postHTTP;
 
 	var putHTTP = function(theUrl, payload, callback) {
 		theUrl += urlPrefix;

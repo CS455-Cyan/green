@@ -35,6 +35,7 @@ angular.module('Catalog')
 			CatalogAPI.getTextSection($routeParams.section, function(textSection) {
 				$scope.textSection = textSection;
 				$rootScope.breadcrumbs = [{text: textSection.title}];
+				$scope.$apply();
 			});
 		}
 	]
@@ -52,6 +53,7 @@ angular.module('Catalog')
 			$rootScope.breadcrumbs = [{text: 'General Education Requirements'}];
 			CatalogAPI.listGeneralRequirements(function(generalRequirements) {
 				$scope.generalRequirements = generalRequirements;
+				$scope.$apply();
 			});
 		}
 	]
@@ -69,6 +71,7 @@ angular.module('Catalog')
 			CatalogAPI.getCategory($routeParams.category, function(category) {
 				$rootScope.category = category;
 				$rootScope.breadcrumbs = [{text: category.name}];
+				$scope.$apply();
 			});
 		}
 	]
@@ -95,6 +98,7 @@ angular.module('Catalog')
 						text: department.name
 					}
 				];
+				$scope.$apply();
 			});
 		}
 	]
@@ -130,6 +134,7 @@ angular.module('Catalog')
 						});
 					}
 					$rootScope.breadcrumbs.push({text: program.name});
+					$scope.$apply();
 				}
 			);
 		}
@@ -148,6 +153,7 @@ angular.module('Catalog')
 			$rootScope.breadcrumbs = [{text: 'Courses'}];
 			CatalogAPI.listSubjects(function(subjects) {
 				$rootScope.subjects = subjects;
+				$scope.$apply();
 			});
 		}
 	]
@@ -184,6 +190,7 @@ angular.module('Catalog')
 					{text: 'Courses', url: '#/courses'},
 					{text: subject.name}
 				];
+				$scope.$apply();
 			});
 		}
 	]
@@ -205,6 +212,7 @@ angular.module('Catalog')
 					{text: course.subject.name, url: '#/courses/subject/' + course.subject._id},
 					{text: course.subject.abbreviation + course.number}
 				];
+				$scope.$apply();
 			});
 		}
 	]
@@ -223,6 +231,7 @@ angular.module('Catalog')
 			CatalogAPI.getFacultyAndStaff(function(facultyAndStaff) {
 				$scope.facultyAndStaff = facultyAndStaff;
 			});
+			$scope.$apply();
 		}
 	]
 );
