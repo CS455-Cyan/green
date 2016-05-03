@@ -125,8 +125,8 @@
 		<input type="radio" name="perspective" ng-model="perspective" ng-value="myName" checked> My Requests</label>
 <label class="">
 		<input type="radio" name="perspective" ng-model="perspective" value="">All Requests</label>
-<div ng-class="{'editing-item': editing, 'edited' : todo.edited, 'accepted' : (todo.timeOfApproval != null), 'pending' : (todo.status == 'pending')}" ng-repeat="todo in todos.data | filter:perspective:author">
-
+<ul class="list"  ng-repeat="todo in todos.data | filter:perspective:author">
+    <li class="list-group-item" ng-class="{'editing-item': editing, 'edited' : todo.edited, 'accepted' : (todo.timeOfApproval != null), 'pending' : (todo.status == 'pending')}">
 	 <label>Author:</label> {{todo.username}}<br/>
 
 		<Label>Type of Request:</Label><t data-ng-repeat="type in todo.requestTypes"> {{type}}</t><br/>
@@ -149,7 +149,7 @@
 		<form>
 		<input type="text" class="form-control" ng-model="comment" placeholder="Add Comment here"><p></p>
 		<button class="btn btn-success" ng-click="acceptTodo(todo._id, comment)">Accept</button>
-		<button class="btn btn-warning" ng-click="denyTodo(todo._id, comment)">Deny</button>
-		<button class="btn btn-danger" ng-click="deleteTodo(todo._id)">Delete</button>
+		<button class="btn btn-warning" ng-click="denyTodo(todo._id, 'blah')">Deny</button>
 				</form>
-</div>
+        </li>
+</ul>

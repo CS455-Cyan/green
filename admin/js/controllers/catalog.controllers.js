@@ -403,7 +403,7 @@
                         $scope.helloWorld = function () {
                             console.log("Hello there! This is the helloWorld controller function in the mainCtrl!");
                         };
-                        $scope.myName = "Sean Connery";
+                        $scope.myName = $rootScope.username;
                         $scope.perspective = $scope.myName;
                         $scope.newCourse = false;
 
@@ -457,20 +457,24 @@
                          CatalogAPI.getHTTP('/admin/changeRequests/userRequests', function(res){
                             console.log(res);
                             $scope.todos = res;
+                              $scope.perspective = $scope.myName;
+                             $scope.$apply();
                         });
                         $scope.denyTodo = function (id, comment) {
-                            alert(comment + id);
+                            comment = {"comment" : comment}
+                            CatalogAPI.putHTTP('/admin/changeRequests/deny/'+id, comment)
                         }
 
 
                         $scope.acceptTodo = function (id, comment) {
-                            alert(comment + id);
+                            comment = {"comment" : comment}
+                           CatalogAPI.putHTTP('/admin/changeRequests/approve/'+id, comment)
                         }
 
                         $scope.pushRequest = function () {
                            $scope.responseObj = {};
                             $scope.responseObj = {
-                                "requestTypes": $scope.user
+                                "requestTypes": $scope.user.changes
                                 , "revisedFacultyCredentials": {
                                     "needed": $scope.newTodo.credentials
                                     , "content": $scope.newTodo.credentialsContent
@@ -488,7 +492,7 @@
                                 , "approvedBy": null
                                 , "description": $scope.newTodo.description
                             };
-                            CatalogAPI.postHTTP("/admin/changeRequests/userRequests", $scope.responseObj, function(){return 1;})
+                            CatalogAPI.postHTTP("/admin/changeRequests/userRequests", $scope.responseObj, function(){location.reload(true);})
                         }
 				}
 			]
