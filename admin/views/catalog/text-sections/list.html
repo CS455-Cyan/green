@@ -5,7 +5,7 @@
 <ul ui-sortable="sortableOptions" ng-model="list" class="list">
        
                 <li ng-repeat="item in list" class="list-group-item">
-                   <a ng-href="#/catalog/text-sections/{{item.value}}"> {{item.text}}</a>
+                   <a ng-href="#/catalog/text-sections/{{item.value._id}}"> {{item.text}}</a>
                     		<button class="btn btn-danger pull-right" ng-click="removeTextSection(item.value)">
 			<span class="glyphicon glyphicon-trash"></span>
 		</button>

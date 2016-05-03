@@ -498,7 +498,9 @@ var CatalogAPIService = function() {
 		var xmlHttp = new XMLHttpRequest();
 		xmlHttp.onreadystatechange = function() { 
 			if(xmlHttp.readyState == 4 && xmlHttp.status == 200){
-				callback(JSON.parse(xmlHttp.responseText));
+				if(callback) {
+					callback(JSON.parse(xmlHttp.responseText));
+				}
 			}
 		}
 		xmlHttp.open("GET", theUrl, true); // true for asynchronous 
@@ -510,7 +512,9 @@ var CatalogAPIService = function() {
 		var xmlHttp = new XMLHttpRequest();
 		xmlHttp.onreadystatechange = function() { 
 			if(xmlHttp.readyState == 4 && xmlHttp.status == 200){
-				callback(JSON.parse(xmlHttp.responseText));
+				if(callback) {
+					callback(JSON.parse(xmlHttp.responseText));
+				}
 			}
 		}
 		xmlHttp.open("POST", theUrl, true); // true for asynchronous 
@@ -523,7 +527,9 @@ var CatalogAPIService = function() {
 		var xmlHttp = new XMLHttpRequest();
 		xmlHttp.onreadystatechange = function() { 
 			if(xmlHttp.readyState == 4 && xmlHttp.status == 200){
-				callback(JSON.parse(xmlHttp.responseText));
+				if(callback) {
+					callback(JSON.parse(xmlHttp.responseText));
+				}
 			}
 		}
 		xmlHttp.open("PUT", theUrl, true); // true for asynchronous 
@@ -537,7 +543,9 @@ var CatalogAPIService = function() {
 		var xmlHttp = new XMLHttpRequest();
 		xmlHttp.onreadystatechange = function() { 
 			if(xmlHttp.readyState == 4 && xmlHttp.status == 200){
-				callback(JSON.parse(xmlHttp.responseText));
+				if(callback) {
+					callback(JSON.parse(xmlHttp.responseText));
+				}
 			}
 		}
 		xmlHttp.open("DELETE", theUrl, true); // true for asynchronous 
