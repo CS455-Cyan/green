@@ -22,7 +22,8 @@
 				'ngFileUpload',
 				'ui.bootstrap',
 				'ngSanitize',
-                'ui.sortable'
+                'ui.sortable',
+                'checklist-model'
 			]
 		).run
 		(

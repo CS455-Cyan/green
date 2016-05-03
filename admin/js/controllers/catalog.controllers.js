@@ -66,7 +66,7 @@
                                     return i.value;
                                 });
                                 console.log(logEntry);
-                               CatalogAPI.putHTTP('/admin/catalog/textSectionsOrder', logEntry)
+                               CatalogAPI.putHTTP('/admin/catalog/textSectionsOrder', logEntry, function(){ return 1;})
                             }
                         };
                         
@@ -395,7 +395,11 @@
 				, '$rootScope'
 				, '$location'
 				, '$sanitize'
-				, function ($scope, $rootScope, $location, $sanitize) {
+                , 'CatalogAPI'
+				, function ($scope, $rootScope, $location, $sanitize, CatalogAPI) {
+                    
+                        $scope.newTodo = {};
+                        $scope.responseObj = {};
                         $scope.helloWorld = function () {
                             console.log("Hello there! This is the helloWorld controller function in the mainCtrl!");
                         };
@@ -450,69 +454,10 @@
                         }
 
 
-                        $scope.todos = {
-                            "success": true
-                            , "data": [
-                                {
-                                    "_id": "571052e8ad4a865d3a18d454"
-                                    , "author": "Sean Connery"
-                                    , "username": "sean_connery"
-                                    , "timeOfRequest": 1460687978978
-                                    , "timeOfApproval": null
-                                    , "status": "pending"
-                                    , "requestTypes": [
-										"Change in Course Description"
-								 ]
-                                    , "revisedFacultyCredentials": {
-                                        "needed": true
-                                        , "content": "hey"
-                                    }
-                                    , "courseListChange": {
-                                        "needed": true
-                                        , "content": "changing A course"
-                                    }
-                                    , "effective": {
-                                        "semester": "Fall"
-                                        , "year": "2016"
-                                    }
-                                    , "courseFeeChange": "added $600 fee"
-                                    , "affectedDepartmentsPrograms": "Computer Science and Information Systems"
-                                    , "approvedBy": "Renee Vandiver"
-                                    , "description": "Change course description for CS310 to 'learning how to write assembly for a computer nobody uses any more'"
-						}
-
-										
-                                , {
-                                    "_id": "571052e8ad4a865d3a18d458"
-                                    , "author": "Sean Connery"
-                                    , "timeOfRequest": 1460687978978
-                                    , "timeOfApproval": 1460687997358
-                                    , "status": "denied"
-                                    , "requestTypes": [
-										"Addition of/Change in Course Fee"
-								 ]
-                                    , "revisedFacultyCredentials": {
-                                        "needed": false
-                                        , "content": null
-                                    }
-                                    , "courseListChange": {
-                                        "needed": false
-                                        , "content": null
-                                    }
-                                    , "effective": {
-                                        "semester": "Fall"
-                                        , "year": "2016"
-                                    }
-                                    , "courseFeeChange": null
-                                    , "affectedDepartmentsPrograms": "Computer Science and Information Systems"
-                                    , "approvedBy": "Renee Vandiver"
-                                    , "description": "Change course fee for CS455 to $3000 so nobody can graduate. hehe"
-                                    , "comment": "WTF??"
-						}
-			]
-
-                        }
-
+                         CatalogAPI.getHTTP('/admin/changeRequests/userRequests', function(res){
+                            console.log(res);
+                            $scope.todos = res;
+                        });
                         $scope.denyTodo = function (id, comment) {
                             alert(comment + id);
                         }
@@ -523,7 +468,7 @@
                         }
 
                         $scope.pushRequest = function () {
-
+                           $scope.responseObj = {};
                             $scope.responseObj = {
                                 "requestTypes": $scope.user
                                 , "revisedFacultyCredentials": {
@@ -543,6 +488,7 @@
                                 , "approvedBy": null
                                 , "description": $scope.newTodo.description
                             };
+                            CatalogAPI.postHTTP("/admin/changeRequests/userRequests", $scope.responseObj, function(){return 1;})
                         }
 				}
 			]

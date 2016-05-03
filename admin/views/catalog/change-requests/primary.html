@@ -1,6 +1,6 @@
 <h1>Change Request</h1>
 <div class="form-group">
-		{{responseObj}}
+		
 		<button ng-click="addingNew = true" ng-hide="addingNew" class="btn btn-primary form-control">+ New</button>
 		<div ng-show="addingNew">
 				<label>Request Type</label>
@@ -60,21 +60,20 @@
 								<input type="checkbox" checklist-model="user.changes" checklist-value="change"> {{change}}
 						</label>
 				</div>
-				{{user.changes}}
-
+		
 
 				<br/>
 				<div class="checkbox">
 						<label>
-								<input type="checkbox" ng-model="newTodo.credentials"> This proposal results in the need for a revised Faculty Credentials Certification Form
+								<input type="checkbox" ng-model="$scope.newTodo.credentials"> This proposal results in the need for a revised Faculty Credentials Certification Form
 						</label>
 				</div>
 
 
 
 
-						<textarea class="form-control" ng-show="newTodo.credentials" ng-model="newTodo.credentialsContent" maxlength="1000">
-								Enter text here...
+						<textarea class="form-control" ng-show="$scope.newTodo.credentials" ng-model="newTodo.credentialsContent" maxlength="1000">
+								Faculty credentials here
 						</textarea>
 
 
@@ -94,7 +93,7 @@
 
 
 				<textarea ng-show="newTodo.changeCourse" class="form-control" ng-model="newTodo.changeCourseContent" maxlength="1000">
-						Enter text here...
+						Changes to course major list
 				</textarea>
 
 
@@ -128,7 +127,7 @@
 		<input type="radio" name="perspective" ng-model="perspective" value="">All Requests</label>
 <div ng-class="{'editing-item': editing, 'edited' : todo.edited, 'accepted' : (todo.timeOfApproval != null), 'pending' : (todo.status == 'pending')}" ng-repeat="todo in todos.data | filter:perspective:author">
 
-	 <label>Author:</label> {{todo.author}}<br/>
+	 <label>Author:</label> {{todo.username}}<br/>
 
 		<Label>Type of Request:</Label><t data-ng-repeat="type in todo.requestTypes"> {{type}}</t><br/>
 
