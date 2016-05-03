@@ -230,7 +230,7 @@ var CatalogAPIService = function() {
 			'/departments/' +
 			departmentId,
 			function(res) {
-				callback(res.data);
+				callback(res.data.category, res.data.department);
 			}
 		);
 	};
